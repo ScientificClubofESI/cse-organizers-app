@@ -105,26 +105,28 @@ Stream<List<Event>>  Eventlist() {
 
   /// *********************  isUserFreeAsStream   *******************/
 
-  Stream<bool> isUserFreeAsStream(String userId) {
+  Stream<bool> isUserFreeAsStream(String userId,String event,String day) {
     return FirebaseFirestore.instance
         .collection('task_users')
         .where('userId', isEqualTo: userId)
         .snapshots()
         .asyncMap((snapshot) async {
       for (DocumentSnapshot doc in snapshot.docs) {
-        String taskId = doc['taskId'];
+        String taskId = doc.get('taskId').toString();
         DocumentSnapshot taskDoc = await FirebaseFirestore.instance
-            .collection('tasks')
+            .collection('Event').doc(event).collection(day)
             .doc(taskId)
             .get();
-        DateTime firstDate = taskDoc['firstDate'].toDate();
-        DateTime lastDate = taskDoc['lastDate'].toDate();
-        if (DateTime.now().isAfter(firstDate) && DateTime.now().isBefore(lastDate)) {
+        DateTime startDate = taskDoc.get('startDate').toDate();
+        DateTime endDate = taskDoc.get('endDate').toDate();
+        if (DateTime.now().isAfter(startDate) && DateTime.now().isBefore(endDate)) {
           return false;
         }
       }
       return true;
     });
   }
+
+
 
 }

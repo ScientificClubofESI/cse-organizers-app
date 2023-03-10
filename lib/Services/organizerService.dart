@@ -28,6 +28,11 @@ class DatabaseService {
   }
 
 
+  updateIsScanned(String task) {
+    FirebaseFirestore.instance
+        .collection('task_users').doc(task+uid).update({'isScanned':true});
+  }
+
 
 
 

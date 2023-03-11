@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'classes.dart';
+
 
 
 class DatabaseService {
@@ -19,7 +19,7 @@ class DatabaseService {
       DocumentReference taskDoc = FirebaseFirestore.instance.collection('Events').doc(event).collection(day).doc(taskId);
 
       await taskDoc.update({
-        'checked': FieldValue.arrayUnion(uid)
+        'checked': FieldValue.arrayUnion([uid])
       });
 
     } catch (e) {

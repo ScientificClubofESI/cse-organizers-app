@@ -9,28 +9,22 @@ class DatabaseService {
 
   DatabaseService({required this.uid});
 
-  //Collectoin reference
-  final CollectionReference organizerCollection =
-  FirebaseFirestore.instance.collection('Organizer');
 
 
 
 
-  Organizer _organizer(DocumentSnapshot snapshot) {
-    return Organizer(id: snapshot.id, nom: snapshot.get("nom"), prenom: snapshot.get("prenom"),phone:snapshot.get("phone"));
-  }
+  Future<void> addUserToTask(String taskId,String event,String day) async {
+    try {
+  
+      DocumentReference taskDoc = FirebaseFirestore.instance.collection('Events').doc(event).collection(day).doc(taskId);
 
-  Stream<Organizer> get organizer {
-    return organizerCollection
-        .doc(uid)
-        .snapshots()
-        .map((snapshot) => _organizer(snapshot));
-  }
+      await taskDoc.update({
+        'checked': FieldValue.arrayUnion(uid)
+      });
 
-
-  updateIsScanned(String task) {
-    FirebaseFirestore.instance
-        .collection('task_users').doc(task+uid).update({'isScanned':true});
+    } catch (e) {
+      print(e);
+    }
   }
 
 

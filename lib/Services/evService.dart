@@ -15,7 +15,7 @@ class EventService {
 
   //Collectoin reference
   final CollectionReference eventCollection =
-  FirebaseFirestore.instance.collection('Event');
+  FirebaseFirestore.instance.collection('Events');
 
 
 
@@ -24,12 +24,12 @@ class EventService {
   List<Event> _eventlist(QuerySnapshot snapshot) {
   return snapshot.docs.map((doc) {
 
-    return Event(id: doc.id, title: doc.get('title').toString(), endDate: doc.get('endDate').toDate(), description: doc.get('description').toString(), startDate: doc.get('startDate').toDate(), days: doc.get('days'));
+    return Event(id: doc.id, title: doc.get('Name').toString(), endDate: doc.get('end-date').toDate(), description: doc.get('description').toString(), startDate: doc.get('start-date').toDate(), days: doc.get('Days'));
   }).toList();
 }
 
 Stream<List<Event>>  Eventlist() {
-  return FirebaseFirestore.instance.collection('Event')
+  return FirebaseFirestore.instance.collection('Events')
       .snapshots()
       .map((snapshot) => _eventlist(snapshot));
 }
@@ -37,7 +37,7 @@ Stream<List<Event>>  Eventlist() {
   List<Task> _tasklist(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
 
-      return Task(id: doc.id, title: doc.get('title').toString(), endDate: doc.get('endDate').toDate(), description: doc.get('description').toString(), startDate: doc.get('startDate').toDate(), organizers:doc.get('organizers') );
+      return Task(id: doc.id, title: doc.get('title').toString(), endDate: doc.get('end-date').toDate(), description: doc.get('description').toString(), startDate: doc.get('startDate').toDate(), organizers:doc.get('organizers') );
     }).toList();
   }
 
@@ -47,83 +47,67 @@ Stream<List<Event>>  Eventlist() {
         .map((snapshot) => _tasklist(snapshot));
   }
 
+  /// *********************get all the participents in one day *******************/
+  List<Organizer> _participentslist(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+
+      return Organizer(id: doc.id, nom: doc.get("full-name"), team: doc.get("team"),phone:doc.get("phone"));
+    }).toList();
+  }
+
+  Stream<List<Organizer>>  participentlist (String event) {
+    return FirebaseFirestore.instance.collection('Event').doc(event).collection('Participents')
+        .snapshots()
+        .map((snapshot) => _participentslist(snapshot));
+  }
+
+  /// *********************get all the Organizers in one day *******************/
+
+  Stream<List<Organizer>>  organizerlist (String event) {
+    return FirebaseFirestore.instance.collection('Event').doc(event).collection('Organizers')
+        .snapshots()
+        .map((snapshot) => _participentslist(snapshot));
+  }
+
   /// ********************* is user free or not *******************/
 
-  bool isUserFree(String userId ,String event,String day) {
-    bool isFree = true;
 
-    DateTime now = DateTime.now();
+  Future<bool> isUserFree(String userId,String event,String day ) async {
 
-    FirebaseFirestore.instance.collection('task_users')
-        .where('userId', isEqualTo: userId)
-        .get()
-        .then((querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        // Get the task document
-        FirebaseFirestore.instance.collection('Event').doc(event).collection('day')
-            .doc(doc['taskId'])
-            .get()
-            .then((taskDoc) {
+    QuerySnapshot tasksSnapshot = await FirebaseFirestore.instance.collection('Events').doc(event).collection(day).get();
 
-          DateTime startDate = taskDoc.get('startDate').toDate();
-          DateTime endDate = taskDoc.get('endDate').toDate();
-          if (startDate.isBefore(now) && endDate.isAfter(now)) {
-            isFree = false;
-          }
-        });
+
+    for (QueryDocumentSnapshot taskDoc in tasksSnapshot.docs) {
+
+      if (taskDoc.get('organizers').contains(userId) ) {
+
+        DateTime startDate = taskDoc.get('start-date').toDate();
+        DateTime endDate = taskDoc.get('end-date').toDate();
+        DateTime currentDate = DateTime.now();
+        if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
+
+          return false;
+        }
       }
-    });
-
-    return isFree;
+    }
+    return true;
   }
 
-
-/// *********************get all the organizers for one task *******************/
-
-  Stream<List<TaskUser>> getTaskOrganizers(String taskId) {
-    return FirebaseFirestore.instance
-        .collection('Task_users')
-        .where('taskId', isEqualTo: taskId)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) {return TaskUser(taskId: taskId, UserId: doc.get('userId').toString(), isScanned: doc.get('isScanned'));}).toList();
-    });
-  }
 
 
   /// *********************get all the tasks for one user *******************/
 
-  Stream<List<TaskUser>> getUserTasks(String userId) {
-    return FirebaseFirestore.instance
-        .collection('task_users')
-        .where('userId', isEqualTo: userId)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) {return TaskUser(taskId: doc.get('taskId').toString(), UserId:userId , isScanned: doc.get('isScanned'));}).toList();
-    });
-  }
 
-  /// *********************  isUserFreeAsStream   *******************/
 
-  Stream<bool> isUserFreeAsStream(String userId,String event,String day) {
-    return FirebaseFirestore.instance
-        .collection('task_users')
-        .where('userId', isEqualTo: userId)
-        .snapshots()
-        .asyncMap((snapshot) async {
-      for (DocumentSnapshot doc in snapshot.docs) {
-        String taskId = doc.get('taskId').toString();
-        DocumentSnapshot taskDoc = await FirebaseFirestore.instance
-            .collection('Event').doc(event).collection(day)
-            .doc(taskId)
-            .get();
-        DateTime startDate = taskDoc.get('startDate').toDate();
-        DateTime endDate = taskDoc.get('endDate').toDate();
-        if (DateTime.now().isAfter(startDate) && DateTime.now().isBefore(endDate)) {
-          return false;
-        }
-      }
-      return true;
+  Stream<List<Task>> UserTasks(String userId, String event ,String day) {
+
+    Query tasksQuery = FirebaseFirestore.instance.collection('Events').doc(event).collection(day).where('organizers', arrayContains: userId);
+
+    return tasksQuery.snapshots().map((querySnapshot) {
+
+      return querySnapshot.docs.map((doc) {
+        return Task(id: doc.id, title: doc.get('title').toString(), endDate: doc.get('end-date').toDate(), description: doc.get('description').toString(), startDate: doc.get('startDate').toDate(), organizers:doc.get('organizers') );
+      }).toList();
     });
   }
 

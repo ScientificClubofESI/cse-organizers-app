@@ -1,9 +1,8 @@
-import 'dart:ffi';
 
 class Organizer{
-  final String id,nom,prenom;
+  final String id,nom,team;
   final num phone;
-  Organizer( {required this.phone,required this.id,required this.nom,required this.prenom});
+  Organizer( {required this.phone,required this.id,required this.nom,required this.team});
 }
 
 class Event{
@@ -20,11 +19,4 @@ class Task{
 
 
   Task( {required this.id,required this.title,required this.startDate,required this.endDate,required this.organizers,required this.description});
-}
-class TaskUser{
-  final String taskId,UserId;
-  final Bool isScanned;
-
-
-  TaskUser({required this.taskId, required this.UserId,required this.isScanned});
 }

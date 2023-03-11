@@ -2,9 +2,15 @@ import 'package:cse_organizers_app/pages/home_page.dart';
 import 'package:cse_organizers_app/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,6 +28,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 
 /* 

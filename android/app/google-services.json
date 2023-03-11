@@ -29,6 +29,13 @@
             {
               "client_id": "509826767525-0e2j8jeffriaj2ql45jc3rn3dg940k0v.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "509826767525-pjoasfkkiajiobmnehb7r3tmr1gq6ito.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cseOrganizersApp"
+              }
             }
           ]
         }

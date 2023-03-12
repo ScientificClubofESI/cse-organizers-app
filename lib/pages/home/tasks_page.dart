@@ -107,7 +107,6 @@ class _TasksPageState extends State<TasksPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     List<Task> taskList = taskListDay2;
   }

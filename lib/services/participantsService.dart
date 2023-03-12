@@ -10,11 +10,30 @@ class participantService {
       FirebaseFirestore.instance.collection('Events');
 
   //GET all participants
-  Future<List<DocumentSnapshot<Map<String, dynamic>>>> getParticipants(
-      String eventId) async {
-    final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+  Future<List<Map<String, dynamic>>> getParticipants(
+      String eventId, String dayNumber, String taskId) async {
+    //get the list of checked participants
+    final event = await collection.doc(eventId).get();
+    String date = event.get(dayNumber); //get the date of the dayNumber'th day
+    final task = await collection
+        .doc(eventId)
+        .collection(date)
+        .doc(taskId)
+        .get(); //get the checkIn task
+    List<String>? checked = task.data()?['checked'];
+
+    final QuerySnapshot<Map<String, dynamic>> partcipantsSnapshot =
         await collection.doc(eventId).collection('Participants').get();
-    return querySnapshot.docs;
+
+    //return the list of participants including their data, id
+    //and scanned (true if the participant is scanned, else false)
+    return partcipantsSnapshot.docs
+        .map((doc) => {
+              'id': doc.id,
+              'scanned': checked?.contains(doc.id) ?? false,
+              'data': doc.data(),
+            })
+        .toList();
   }
 
   // GET already checked participants of a specific task in a specific day

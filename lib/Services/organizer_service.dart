@@ -5,7 +5,7 @@ class DatabaseService {
 
   DatabaseService({required this.uid});
 
-  Future<void> addUserToTask(String taskId, String event, String day) async {
+  Future<void> checkParticipant(String taskId, String event, String day) async {
     try {
       DocumentReference taskDoc = FirebaseFirestore.instance
           .collection('Events')
@@ -20,4 +20,6 @@ class DatabaseService {
       print(e);
     }
   }
+
+
 }

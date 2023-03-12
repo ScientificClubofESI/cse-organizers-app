@@ -1,8 +1,8 @@
 
 class Organizer{
-  final String id,nom,team;
+  final String id,full_name,team;
   final num phone;
-  Organizer( {required this.phone,required this.id,required this.nom,required this.team});
+  Organizer( {required this.phone,required this.id,required this.full_name,required this.team});
 }
 
 class Event{
@@ -19,4 +19,10 @@ class Task{
 
 
   Task( {required this.id,required this.title,required this.startDate,required this.endDate,required this.organizers,required this.description});
+}
+
+class OrganizerStatus{
+  final String organizer_id;
+  final String? task_title;
+  OrganizerStatus( {required this.organizer_id,required this.task_title,});
 }

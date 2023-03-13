@@ -16,7 +16,7 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   int activebutton = 1;
   int index = 1;
-  Color background = Colors.white70;
+  Color background = Colors.white70; // prblm hna
   Color text = Colors.black;
 
   void clicked(int index) {
@@ -108,7 +108,7 @@ class _TasksPageState extends State<TasksPage> {
   @override
   void initState() {
     super.initState();
-    List<Task> taskList = taskListDay2;
+    List<Task> taskList = taskListDay1;
   }
 
   @override
@@ -124,7 +124,7 @@ class _TasksPageState extends State<TasksPage> {
             Container(
               alignment: Alignment.center,
               color: Colors.white,
-              height: 80,
+              height: hauteur * 0.16,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

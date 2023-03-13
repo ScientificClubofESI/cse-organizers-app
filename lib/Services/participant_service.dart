@@ -45,8 +45,6 @@ class ParticipantService {
 
       return true;
     } catch (e) {
-      // print(e);
-
       return false;
     }
   }
@@ -69,8 +67,6 @@ class ParticipantService {
 
       return true;
     } catch (e) {
-      // print(e);
-
       return false;
     }
   }

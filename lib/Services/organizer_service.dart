@@ -28,14 +28,34 @@ class OrganizerService {
     return _organizerslist(organizersSnapshot);
   }
 
-  Future<Map<String, String?>> getOccupationStatus(DateTime day) async {
+  Future<Map<String, String?>> getOccupationStatus(DateTime now) async {
     final Map<String, String?> status = {};
 
     for (Organizer organizer in await getOrganizerslist()) {
       status[organizer.id] = null;
     }
 
-    for (Task task in await TaskService(event: event, day: day).getTasklist()) {
+    for (Task task in await TaskService(event: event, day: now).getTasklist()) {
+      final DateTime startTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        task.startTime.hour,
+        task.startTime.minute,
+      );
+
+      final DateTime endTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        task.endTime.hour,
+        task.endTime.minute,
+      );
+
+      if (now.isBefore(startTime) || now.isAfter(endTime)) {
+        continue;
+      }
+
       for (String organizerID in task.organizers) {
         status[organizerID] = task.title;
       }

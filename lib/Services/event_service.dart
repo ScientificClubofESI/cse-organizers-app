@@ -13,9 +13,13 @@ abstract class EventService {
     }).toList();
   }
 
-  static Future<List<Event>> getEventslist() async {
-    final QuerySnapshot eventsSnapshot =
-        await FirebaseFirestore.instance.collection('Events').get();
-    return _eventslist(eventsSnapshot);
+  static Future<List<Event>?> getEventslist() async {
+    try {
+      final QuerySnapshot eventsSnapshot =
+          await FirebaseFirestore.instance.collection('Events').get();
+      return _eventslist(eventsSnapshot);
+    } catch (e) {
+      return null;
+    }
   }
 }

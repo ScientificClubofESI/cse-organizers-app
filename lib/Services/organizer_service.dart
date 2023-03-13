@@ -18,49 +18,60 @@ class OrganizerService {
     }).toList();
   }
 
-  Future<List<Organizer>> getOrganizerslist() async {
-    final organizersSnapshot = await FirebaseFirestore.instance
-        .collection('Event')
-        .doc(event)
-        .collection('Organizers')
-        .get();
+  Future<List<Organizer>?> getOrganizerslist() async {
+    try {
+      final organizersSnapshot = await FirebaseFirestore.instance
+          .collection('Event')
+          .doc(event)
+          .collection('Organizers')
+          .get();
 
-    return _organizerslist(organizersSnapshot);
+      return _organizerslist(organizersSnapshot);
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<Map<String, String?>> getOccupationStatus(DateTime now) async {
-    final Map<String, String?> status = {};
+  Future<Map<String, String?>?> getOccupationStatus(DateTime now) async {
+    try {
+      final Map<String, String?> status = {};
 
-    for (Organizer organizer in await getOrganizerslist()) {
-      status[organizer.id] = null;
-    }
-
-    for (Task task in await TaskService(event: event, day: now).getTasklist()) {
-      final DateTime startTime = DateTime(
-        now.year,
-        now.month,
-        now.day,
-        task.startTime.hour,
-        task.startTime.minute,
-      );
-
-      final DateTime endTime = DateTime(
-        now.year,
-        now.month,
-        now.day,
-        task.endTime.hour,
-        task.endTime.minute,
-      );
-
-      if (now.isBefore(startTime) || now.isAfter(endTime)) {
-        continue;
+      for (Organizer organizer in (await getOrganizerslist())!) {
+        status[organizer.id] = null;
       }
 
-      for (String organizerID in task.organizers) {
-        status[organizerID] = task.title;
-      }
-    }
+      for (Task task in (await TaskService(
+        event: event,
+        day: now,
+      ).getTasklist())!) {
+        final DateTime startTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          task.startTime.hour,
+          task.startTime.minute,
+        );
 
-    return status;
+        final DateTime endTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          task.endTime.hour,
+          task.endTime.minute,
+        );
+
+        if (now.isBefore(startTime) || now.isAfter(endTime)) {
+          continue;
+        }
+
+        for (String organizerID in task.organizers) {
+          status[organizerID] = task.title;
+        }
+      }
+
+      return status;
+    } catch (e) {
+      return null;
+    }
   }
 }

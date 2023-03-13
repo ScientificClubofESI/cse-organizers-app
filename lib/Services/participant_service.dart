@@ -17,14 +17,18 @@ class ParticipantService {
     }).toList();
   }
 
-  Future<List<Participant>> getParticipantslist() async {
-    final participantsSnapshot = await FirebaseFirestore.instance
-        .collection('Event')
-        .doc(event)
-        .collection('Participents')
-        .get();
+  Future<List<Participant>?> getParticipantslist() async {
+    try {
+      final participantsSnapshot = await FirebaseFirestore.instance
+          .collection('Event')
+          .doc(event)
+          .collection('Participents')
+          .get();
 
-    return _participantslist(participantsSnapshot);
+      return _participantslist(participantsSnapshot);
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<bool> checkParticipant(

@@ -25,50 +25,62 @@ class TaskService {
     }).toList();
   }
 
-  Future<List<Task>> getTasklist() async {
-    final tasksSnapshot = await FirebaseFirestore.instance
-        .collection('Events')
-        .doc(event)
-        .collection(DateTimeService.formatDay(day))
-        .get();
+  Future<List<Task>?> getTasklist() async {
+    try {
+      final tasksSnapshot = await FirebaseFirestore.instance
+          .collection('Events')
+          .doc(event)
+          .collection(DateTimeService.formatDay(day))
+          .get();
 
-    return _tasklist(tasksSnapshot);
+      return _tasklist(tasksSnapshot);
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<List<Task>> getOrganizerTasks(String organizer) async {
-    final tasksSnapshot = await FirebaseFirestore.instance
-        .collection('Events')
-        .doc(event)
-        .collection(DateTimeService.formatDay(day))
-        .where('organizers', arrayContains: organizer)
-        .get();
+  Future<List<Task>?> getOrganizerTasks(String organizer) async {
+    try {
+      final tasksSnapshot = await FirebaseFirestore.instance
+          .collection('Events')
+          .doc(event)
+          .collection(DateTimeService.formatDay(day))
+          .where('organizers', arrayContains: organizer)
+          .get();
 
-    return _tasklist(tasksSnapshot);
+      return _tasklist(tasksSnapshot);
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<Stream<Map<String, bool>>> getCheckInStatusStream(
+  Future<Stream<Map<String, bool>>?> getCheckInStatusStream(
     String taskID,
   ) async {
-    final List<Participant> participants =
-        await ParticipantService(event: event).getParticipantslist();
+    try {
+      final List<Participant> participants =
+          (await ParticipantService(event: event).getParticipantslist())!;
 
-    return FirebaseFirestore.instance
-        .collection('Events')
-        .doc(event)
-        .collection(DateTimeService.formatDay(day))
-        .doc(taskID)
-        .snapshots()
-        .map(
-      (task) {
-        final Map<String, bool> checkInStatus = {};
-        for (Participant participant in participants) {
-          checkInStatus[participant.id] = false;
-        }
-        for (String participantID in task.get('checked')) {
-          checkInStatus[participantID] = true;
-        }
-        return checkInStatus;
-      },
-    );
+      return FirebaseFirestore.instance
+          .collection('Events')
+          .doc(event)
+          .collection(DateTimeService.formatDay(day))
+          .doc(taskID)
+          .snapshots()
+          .map(
+        (task) {
+          final Map<String, bool> checkInStatus = {};
+          for (Participant participant in participants) {
+            checkInStatus[participant.id] = false;
+          }
+          for (String participantID in task.get('checked')) {
+            checkInStatus[participantID] = true;
+          }
+          return checkInStatus;
+        },
+      );
+    } catch (e) {
+      return null;
+    }
   }
 }

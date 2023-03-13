@@ -1,25 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cse_organizers_app/models/organizer.dart';
+import 'package:cse_organizers_app/models/task.dart';
+import 'package:cse_organizers_app/services/task_service.dart';
 
-class DatabaseService {
-  final String uid;
+class OrganizerService {
+  final String event;
 
-  DatabaseService({required this.uid});
+  OrganizerService({required this.event});
 
-  Future<void> checkParticipant(String taskId, String event, String day) async {
-    try {
-      DocumentReference taskDoc = FirebaseFirestore.instance
-          .collection('Events')
-          .doc(event)
-          .collection(day)
-          .doc(taskId);
-
-      await taskDoc.update({
-        'checked': FieldValue.arrayUnion([uid])
-      });
-    } catch (e) {
-      print(e);
-    }
+  List<Organizer> _organizerslist(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Organizer(
+        id: doc.id,
+        fullName: doc.get("full-name"),
+        phone: doc.get("phone"),
+      );
+    }).toList();
   }
 
+  Future<List<Organizer>> getOrganizerslist() async {
+    final organizersSnapshot = await FirebaseFirestore.instance
+        .collection('Event')
+        .doc(event)
+        .collection('Organizers')
+        .get();
 
+    return _organizerslist(organizersSnapshot);
+  }
+
+  Future<Map<String, String?>> getOccupationStatus(DateTime day) async {
+    final Map<String, String?> status = {};
+
+    for (Organizer organizer in await getOrganizerslist()) {
+      status[organizer.id] = null;
+    }
+
+    for (Task task in await TaskService(event: event, day: day).getTasklist()) {
+      for (String organizerID in task.organizers) {
+        status[organizerID] = task.title;
+      }
+    }
+
+    return status;
+  }
 }

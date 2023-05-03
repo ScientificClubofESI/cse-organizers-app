@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:cse_organizers_app/Widget/tasks_ScanButton.dart';
 import 'tasks_Participant_Button.dart';
-import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -34,29 +31,43 @@ class Task extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AutoSizeText(task_type,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: constants.colors['neutral']![900],
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.access_time_rounded,
-                      color: constants.colors['neutral']![900],
-                      size: 14,
-                    ),
-                    AutoSizeText(
-                      hour,
+                Container(
+                  width: largeur * 0.6,
+                  child: AutoSizeText(task_type,
                       style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: "CSEOrganizersApp",
                         color: constants.colors['neutral']![900],
-                        fontSize: 5,
+                        fontWeight: FontWeight.w600,
                       ),
-                      maxLines: 1,
-                    ),
-                  ],
+                      maxLines: 1),
+                ),
+                Container(
+                  width: largeur * 0.3,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: largeur * 0.05,
+                        child: Icon(
+                          Icons.access_time_rounded,
+                          color: constants.colors['neutral']![900],
+                          size: largeur * 0.05,
+                        ),
+                      ),
+                      Container(
+                        width: largeur * 0.2,
+                        child: AutoSizeText(
+                          hour,
+                          style: TextStyle(
+                            color: constants.colors['neutral']![900],
+                            fontFamily: "CSEOrganizersApp",
+                            fontSize: 16,
+                          ),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -66,13 +77,15 @@ class Task extends StatelessWidget {
             children: [
               SizedBox(
                 height: hauteur * 0.07,
-                child: AutoSizeText(
-                  task_content,
-                  style: TextStyle(
-                    fontSize: 5,
-                    color: constants.colors['neutral']![900],
+                child: Container(
+                  child: AutoSizeText(
+                    task_content,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: constants.colors['neutral']![900],
+                    ),
+                    // maxLines: 2,
                   ),
-                  maxLines: 2,
                 ),
               ),
               if (normal_task == false)
@@ -84,7 +97,7 @@ class Task extends StatelessWidget {
                       child: const Divider(
                         height: 1,
                         thickness: 1,
-                        color: Colors.black,
+                        color: Colors.black, //constants.colors['neutral']![900]
                       ),
                     ),
                     SizedBox(
@@ -92,9 +105,8 @@ class Task extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ScanButton(name: 'Scan', deg: 10, size: 9),
-                            ParticipantButton(
-                                name: 'Participants', deg: 10, size: 10)
+                            ScanButton(name: 'Scan', deg: 10),
+                            ParticipantButton(name: 'Participants', deg: 10)
                           ]),
                     )
                   ],

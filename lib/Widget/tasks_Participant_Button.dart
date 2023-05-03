@@ -1,18 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
+import 'package:cse_organizers_app/pages/home/tasks/participants_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
 
 class ParticipantButton extends StatelessWidget {
   final String name;
   final double deg;
-  final double size;
 
   const ParticipantButton({
     super.key,
     required this.name,
     required this.deg,
-    required this.size,
   });
 
   @override
@@ -21,15 +20,23 @@ class ParticipantButton extends StatelessWidget {
     final double hauteur = MediaQuery.of(context).size.height;
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => ParticipantsPage()));
+      },
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        AutoSizeText(name,
-            style: TextStyle(
-                fontSize: size, color: constants.colors['neutral']![900]),
-            maxLines: 1),
+        Container(
+          width: largeur * 0.25,
+          child: AutoSizeText(name,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: "CSEOrganizersApp",
+                  color: constants.colors['neutral']![900]),
+              maxLines: 1),
+        ),
         Icon(
           CSEOrganizersApp.arrow,
-          size: 14,
+          size: largeur * 0.05,
           color: constants.colors['neutral']![900],
         ),
       ]),

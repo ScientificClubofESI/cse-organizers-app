@@ -10,13 +10,11 @@ import 'package:cse_organizers_app/constants.dart' as constants;
 class ScanButton extends StatelessWidget {
   final String name;
   final double deg;
-  final double size;
 
   const ScanButton({
     super.key,
     required this.name,
     required this.deg,
-    required this.size,
   });
 
   @override
@@ -33,12 +31,13 @@ class ScanButton extends StatelessWidget {
         elevation: 0,
       ),
       onPressed: () {
-        // setState();
         /*  Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) =>q_r_page())); */
       },
-      label: AutoSizeText(name, style: TextStyle(fontSize: size), maxLines: 1),
-      icon: Icon(CSEOrganizersApp.camera, size: 13),
+      label: AutoSizeText(name,
+          style: TextStyle(fontSize: 18, fontFamily: "CSEOrganizersApp"),
+          maxLines: 1),
+      icon: Icon(CSEOrganizersApp.camera, size: largeur * 0.05),
     );
   }
 }

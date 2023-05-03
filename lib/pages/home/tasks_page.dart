@@ -16,8 +16,6 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   int activebutton = 1;
   int index = 1;
-  Color background = Colors.white70; // prblm hna
-  Color text = Colors.black;
 
   void clicked(int index) {
     setState(() {
@@ -26,6 +24,7 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   List<Task> taskList = [];
+
   List<Task> taskListDay1 = [
     const Task(
         normal_task: true,
@@ -122,6 +121,7 @@ class _TasksPageState extends State<TasksPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
+              padding: EdgeInsets.only(top: 12),
               alignment: Alignment.center,
               color: Colors.white,
               height: hauteur * 0.16,
@@ -135,7 +135,9 @@ class _TasksPageState extends State<TasksPage> {
                         'My tasks',
                         maxLines: 1,
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w600),
+                            fontSize: 32,
+                            fontFamily: "CSEOrganizersApp",
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                     Row(
@@ -160,7 +162,8 @@ class _TasksPageState extends State<TasksPage> {
                                     elevation: 0,
                                   )
                                 : ElevatedButton.styleFrom(
-                                    backgroundColor: background,
+                                    backgroundColor: constants
+                                        .colors['background']!['light'],
                                     fixedSize:
                                         Size(largeur * 0.27, hauteur * 0.07),
                                     shape: RoundedRectangleBorder(
@@ -170,7 +173,7 @@ class _TasksPageState extends State<TasksPage> {
                                   ),
                             child: AutoSizeText('DAY 1',
                                 style: TextStyle(
-                                    fontSize: 19,
+                                    fontSize: 20,
                                     color: constants.colors['neutral']![900]),
                                 maxLines: 1)),
                         ElevatedButton(
@@ -192,7 +195,8 @@ class _TasksPageState extends State<TasksPage> {
                                     elevation: 0,
                                   )
                                 : ElevatedButton.styleFrom(
-                                    backgroundColor: background,
+                                    backgroundColor: constants
+                                        .colors['background']!['light'],
                                     fixedSize:
                                         Size(largeur * 0.27, hauteur * 0.07),
                                     shape: RoundedRectangleBorder(
@@ -202,7 +206,7 @@ class _TasksPageState extends State<TasksPage> {
                                   ),
                             child: AutoSizeText('DAY 2',
                                 style: TextStyle(
-                                    fontSize: 19,
+                                    fontSize: 20,
                                     color: constants.colors['neutral']![900]),
                                 maxLines: 1)),
                         ElevatedButton(
@@ -224,7 +228,8 @@ class _TasksPageState extends State<TasksPage> {
                                     elevation: 0,
                                   )
                                 : ElevatedButton.styleFrom(
-                                    backgroundColor: background,
+                                    backgroundColor: constants
+                                        .colors['background']!['light'],
                                     fixedSize:
                                         Size(largeur * 0.27, hauteur * 0.07),
                                     shape: RoundedRectangleBorder(
@@ -234,7 +239,7 @@ class _TasksPageState extends State<TasksPage> {
                                   ),
                             child: AutoSizeText('DAY 3',
                                 style: TextStyle(
-                                    fontSize: 19,
+                                    fontSize: 20,
                                     color: constants.colors['neutral']![900]),
                                 maxLines: 1))
                       ],

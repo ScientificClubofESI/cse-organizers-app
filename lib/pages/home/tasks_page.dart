@@ -121,61 +121,68 @@ class _TasksPageState extends State<TasksPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.only(top: 12),
+              padding: EdgeInsets.only(top: hauteur * 0.019),
               alignment: Alignment.center,
               color: Colors.white,
-              height: hauteur * 0.16,
+              height: hauteur * 0.19,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
                       width: largeur * 0.33,
+                      height: hauteur * 0.06,
                       alignment: Alignment.center,
                       child: AutoSizeText(
                         'My tasks',
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 32,
-                            fontFamily: "CSEOrganizersApp",
-                            fontWeight: FontWeight.w600),
+                            //       fontFamily: "CSEOrganizersApp",
+                            fontWeight: FontWeight.bold),
                       ),
+                    ),
+                    SizedBox(
+                      height: hauteur * 0.01,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton(
-                            onPressed: () {
-                              clicked(1);
-                              setState(() {
-                                taskList = taskListDay1;
-                              });
-                            },
-                            style: activebutton == 1
-                                ? ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        constants.colors['primary']![600],
-                                    fixedSize:
-                                        Size(largeur * 0.27, hauteur * 0.07),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    elevation: 0,
-                                  )
-                                : ElevatedButton.styleFrom(
-                                    backgroundColor: constants
-                                        .colors['background']!['light'],
-                                    fixedSize:
-                                        Size(largeur * 0.27, hauteur * 0.07),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    elevation: 0,
+                          onPressed: () {
+                            clicked(1);
+                            setState(() {
+                              taskList = taskListDay1;
+                            });
+                          },
+                          style: activebutton == 1
+                              ? ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      constants.colors['primary']![600],
+                                  fixedSize:
+                                      Size(largeur * 0.25, hauteur * 0.056),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                            child: AutoSizeText('DAY 1',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: constants.colors['neutral']![900]),
-                                maxLines: 1)),
+                                  elevation: 0,
+                                )
+                              : ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      constants.colors['background']!['light'],
+                                  fixedSize:
+                                      Size(largeur * 0.25, hauteur * 0.056),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  elevation: 0,
+                                ),
+                          child: AutoSizeText('DAY 1',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: activebutton == 1
+                                      ? constants.colors['background']!['light']
+                                      : constants.colors['neutral']![900]),
+                              maxLines: 1),
+                        ),
                         ElevatedButton(
                             onPressed: () {
                               clicked(2);

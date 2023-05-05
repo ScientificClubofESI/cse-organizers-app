@@ -32,7 +32,7 @@ class Task extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: largeur * 0.6,
+                  width: largeur * 0.5,
                   child: AutoSizeText(task_type,
                       style: TextStyle(
                         fontSize: 20,
@@ -55,7 +55,7 @@ class Task extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: largeur * 0.2,
+                        width: largeur * 0.23,
                         child: AutoSizeText(
                           hour,
                           style: TextStyle(

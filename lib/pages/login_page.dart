@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class LoginForm extends StatelessWidget {
         children: <Widget>[
           //Logo part
           Image.asset(
-            'assets/images/logo.png',
+            'assets/images/CSE Logo.png',
             width: 200,
           ),
 

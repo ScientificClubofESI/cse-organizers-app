@@ -17,9 +17,9 @@ class HomePage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
+        // appBar: AppBar(
+        //   title: Text(title),
+        // ),
         body: const TabBarView(children: [
           AgendaPage(),
           TasksPage(),

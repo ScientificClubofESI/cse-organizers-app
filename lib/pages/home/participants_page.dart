@@ -1,6 +1,12 @@
+import 'package:cse_organizers_app/widgets/participant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:cse_organizers_app/widgets/scanbutton.dart';
+import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
+import 'package:cse_organizers_app/constants.dart' as constants;
+
+// constants.colors[<name-of-color>]![<number-of-color>]
+
+// CSEOrganizersApp.<name-of-icon>
 
 class participantinfo {
   final String name;
@@ -105,121 +111,126 @@ class _ParticipantPageState extends State<ParticipantPage> {
   Widget build(BuildContext context) {
     double l = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    double textSize = 25;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          toolbarHeight: h*0.25,
-          elevation: 5,
-          shadowColor: Colors.black45,
-          // ignore: sized_box_for_whitespace
-          title: Container(
-            height: 200,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Participants',
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: h * 0.25,
+        elevation: 5,
+        shadowColor: Colors.black45,
+        // ignore: sized_box_for_whitespace
+        title: Container(
+          height: h * 0.22,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.center,
+                width: l * 0.47,
+                child: Text('Participants',
                     style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
-                Container(
-                  height: 60,
-                  width: 500,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color.fromARGB(40, 125, 181, 255),
-                            offset: Offset(5, 3),
-                            blurRadius: 10,
-                            spreadRadius: 0)
-                      ]),
-                  child: Center(
-                    child: TextField(
-                      // controller: _searchcontroller,
-                      onChanged: (value) {
+                        fontSize: textSize,
+                        fontWeight: FontWeight.w600,
+                        color: constants.colors['neutral']![900])),
+              ),
+              Container(
+                height: h * 0.06,
+                width: l * 0.8878,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                          color: const Color.fromARGB(14, 0, 0, 0),
+                          offset: const Offset(5, 3),
+                          blurRadius: 15,
+                          spreadRadius: 0)
+                    ]),
+                child: Center(
+                  child: TextField(
+                    // controller: _searchcontroller,
+                    onChanged: (value) {
+                      setState(() {
+                        inputvalue = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // SvgPicture.string(searchinput,height: 50,width:50,)
+                        prefixIcon: Icon(CSEOrganizersApp.search,
+                            color: constants.colors['neutral']![900]),
+                        hintText: 'Search Participants/Teams',
+                        hintStyle: TextStyle(
+                            fontSize: 19,
+                            color: constants.colors['neutral']![100])),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ...toggleactions.map((item) {
+                    return GestureDetector(
+                      onTap: () {
                         setState(() {
-                          inputvalue = value;
+                          index = item.id;
                         });
                       },
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          // SvgPicture.string(searchinput,height: 50,width:50,)
-                          prefixIcon: Icon(
-                            Icons.search,
-                            size: 35,
-                          ),
-                          hintText: 'Search Participants/Teams',
-                          hintStyle:
-                              TextStyle(color: Colors.black26, fontSize: 22)),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ...toggleactions.map((item) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            index = item.id;
-                          });
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 120,
-                          // padding: EdgeInsets.symmetric(horizontal: item.id == 20 ? 2 : 0),
-                          decoration: BoxDecoration(
-                              color: index == item.id
-                                  ? Colors.blue
-                                  : Color.fromARGB(31, 91, 143, 255),
-                              borderRadius: BorderRadius.circular(20)),
+                      child: Container(
+                        height: h * 0.05,
+                        width: l * 0.2710,
+                        // padding: EdgeInsets.symmetric(horizontal: item.id == 20 ? 2 : 0),
+                        decoration: BoxDecoration(
+                            color: index == item.id
+                                ? constants.colors['primary']![500]
+                                : constants.colors['background']!['light'],
+                            borderRadius: BorderRadius.circular(20)),
 
-                          child: Center(
-                              child: Text(
-                            item.actionstring,
-                            style: TextStyle(
-                                color: index == item.id
-                                    ? Colors.white
-                                    : Colors.black),
-                          )),
-                        ),
-                      );
-                    }),
-                  ],
-                )
-              ],
-            ),
+                        child: Center(
+                            child: Text(
+                          item.actionstring,
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: index == item.id
+                                  ? Colors.white
+                                  : constants.colors['neutral']![900]),
+                        )),
+                      ),
+                    );
+                  }),
+                ],
+              )
+            ],
           ),
-          // title: Title(color: Colors.black, child: Text('Participants',style: TextStyle(fontSize: 40,fontWeight: FontWeight.w500),)),
         ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 20, bottom: 20),
-                  width: 370,
-                  padding: EdgeInsets.only(bottom: 25),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 210, 227, 255),
-                          blurRadius: 40,
-                        )
-                      ]),
-                  child: Wrap(
-                    children: [...participantstoappear()],
-                  ),
+        // title: Title(color: Colors.black, child: Text('Participants',style: TextStyle(fontSize: 40,fontWeight: FontWeight.w500),)),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 20, bottom: 20),
+                width: 370,
+                padding: const EdgeInsets.only(bottom: 25),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(255, 210, 227, 255),
+                        blurRadius: 40,
+                      )
+                    ]),
+                child: Wrap(
+                  children: [...participantstoappear()],
                 ),
-                ScanButton()
-              ],
-            ),
+              ),
+              const ScanButton()
+            ],
           ),
         ),
-        bottomNavigationBar: BottomBar());
+      ),
+    );
   }
 }

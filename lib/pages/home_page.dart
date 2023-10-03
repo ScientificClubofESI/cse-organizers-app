@@ -1,5 +1,6 @@
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/pages/home/agenda_page.dart';
+import 'package:cse_organizers_app/pages/home/participants_page.dart';
 import 'package:cse_organizers_app/pages/home/search_page.dart';
 import 'package:cse_organizers_app/pages/home/tasks_page.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
         ),
         body: const TabBarView(children: [
           AgendaPage(),
-          TasksPage(),
+          ParticipantPage(),
           SearchPage(),
         ]),
         bottomNavigationBar: Container(

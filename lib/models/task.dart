@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 
 class Task {
   final String id, title, description, rawStartTime, rawEndTime;
-  DateTime startTime = DateTime(2023, 10, 2, 14, 0, 0);
-  DateTime endTime = DateTime(2023, 10, 2, 16, 0, 0);
+  //------------ change this to active tasks -----------
+  DateTime startTime = DateTime(2023, 10, 4, 22, 15, 0);
+  DateTime endTime = DateTime(2023, 10, 4, 22, 16, 0);
+  //----------------------------------------------------
   final bool checkIn;
   final List<String> organizers;
   final List<String>? checkedParticipants;
@@ -19,7 +21,7 @@ class Task {
     required this.checkIn,
     this.checkedParticipants,
   }) {
-    //startTime = DateTime(2023, 10, 2, 14, 0, 0);
-    //endTime = DateTime(2023, 10, 2, 16, 0, 0);
+    // startTime = DateTimeService.parseTime(rawStartTime);
+    // endTime = DateTimeService.parseTime(rawEndTime);
   }
 }

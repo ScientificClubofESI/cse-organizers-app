@@ -1,6 +1,7 @@
 import 'package:cse_organizers_app/constants.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/models/event.dart';
+import 'package:cse_organizers_app/pages/home/participants_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/task.dart';
@@ -28,7 +29,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true),
+          checkIn: false),
       Task(
           id: '0',
           title: 'Normal Task',
@@ -37,7 +38,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true),
+          checkIn: false),
       Task(
           id: '1',
           title: 'Check-In Task',
@@ -46,7 +47,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true),
+          checkIn: false),
       Task(
           id: '2',
           title: 'Normal Task',
@@ -55,7 +56,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true),
+          checkIn: false),
       Task(
           id: '4',
           title: 'Check-In Task',
@@ -64,7 +65,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true),
+          checkIn: false),
       Task(
           id: '5',
           title: 'Normal Task',
@@ -73,7 +74,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true),
+          checkIn: false),
       Task(
           id: '6',
           title: 'Check-In Task',
@@ -82,7 +83,7 @@ class _TasksPageState extends State<TasksPage> {
           rawStartTime: '11:00',
           rawEndTime: '12:30',
           organizers: <String>['Member1'],
-          checkIn: true)
+          checkIn: false)
     ],
     <Task>[
       Task(
@@ -416,6 +417,13 @@ class _TasksPageState extends State<TasksPage> {
     // TODO: implement initState
     super.initState();
     event = Event(id: 'id', name: 'Welcome day', days: daysList);
+    currentDayTasksList.sort((a, b) => a.startTime.compareTo(b.startTime));
+    // to test array sorting -- i'll implement the UI real time change with Provider.
+    // Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   if (mounted){
+    //   setState(() {});
+    //   }
+    // });
   }
 
   @override
@@ -465,6 +473,7 @@ class _TasksPageState extends State<TasksPage> {
                             setState(() {
                               current = index;
                               currentDayTasksList = daysTaskList[current];
+                              currentDayTasksList.sort((a, b) => a.startTime.compareTo(b.startTime));
                             });
                           },
                           child: AnimatedContainer(
@@ -509,136 +518,295 @@ class _TasksPageState extends State<TasksPage> {
                 itemBuilder: (context, index) {
                   if (currentDayTasksList[index].checkIn == true) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 5.0),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: ListTile(
-                          tileColor: (DateTime.now().isAfter(
-                                      currentDayTasksList[index].startTime) &&
-                                  DateTime.now().isBefore(
-                                      currentDayTasksList[index].endTime))
+                      padding: EdgeInsets.only(
+                          top: index == 0 ? 0.0 : 16.0, bottom: 16.0,left :24.0, right : 24.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: (DateTime.now().isAfter(
+                              currentDayTasksList[index].startTime) &&
+                              DateTime.now().isBefore(
+                                  currentDayTasksList[index].endTime))
                               ? colors['primary']![100]
                               : colors['shades']!['white'],
-                          title: Column(
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child:
+                                          Text(currentDayTasksList[index].title,style: TextStyle(
+                                            color: (DateTime.now().isAfter(
+                                                currentDayTasksList[index].startTime) &&
+                                                DateTime.now().isBefore(
+                                                    currentDayTasksList[index].endTime))
+                                                ? colors['neutral']![900]
+                                                : colors['neutral']![900]!.withOpacity(0.3) ,
+                                            fontFamily: 'CSEOrganizersApp',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(CSEOrganizersApp.clock,color:
+                                    (DateTime.now().isAfter(
+                                        currentDayTasksList[index].startTime) &&
+                                        DateTime.now().isBefore(
+                                            currentDayTasksList[index].endTime))
+                                        ? colors['neutral']![900]
+                                        : colors['neutral']![900]!.withOpacity(0.3) ,
+                                    ),
+                                        Text(
+                                            ' ${currentDayTasksList[index].rawStartTime} - ${currentDayTasksList[index].rawEndTime}',style: TextStyle(
+                                          color: (DateTime.now().isAfter(
+                                              currentDayTasksList[index].startTime) &&
+                                              DateTime.now().isBefore(
+                                                  currentDayTasksList[index].endTime))
+                                              ? colors['neutral']![900]
+                                              : colors['neutral']![900]!.withOpacity(0.3) ,
+                                          fontFamily: 'CSEOrganizersApp',
+                                        ),)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Text(
+                                      currentDayTasksList[index].description,style: TextStyle(
+                                    color: (DateTime.now().isAfter(
+                                        currentDayTasksList[index].startTime) &&
+                                        DateTime.now().isBefore(
+                                            currentDayTasksList[index].endTime))
+                                        ? colors['neutral']![900]
+                                        : colors['neutral']![900]!.withOpacity(0.5) ,
+                                    fontFamily: 'CSEOrganizersApp',
+                                    fontSize: 13,
+                                  ),)
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 16.0),
+                                  child: Divider(
+                                    color: (DateTime.now().isAfter(
+                                        currentDayTasksList[index].startTime) &&
+                                        DateTime.now().isBefore(
+                                            currentDayTasksList[index].endTime))
+                                        ? colors['neutral']![900]
+                                        : colors['neutral']![900]!.withOpacity(0.5),
+                                    thickness: 1,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      MaterialButton(
+                                        shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(16.0),
+                                            ),
+                                        elevation: 0.0,
+                                        onPressed: () {
+                                          if(DateTime.now().isAfter(
+                                              currentDayTasksList[index].startTime) &&
+                                              DateTime.now().isBefore(
+                                                  currentDayTasksList[index].endTime)){
+                                            //Uncomment this when ScanPage implemented.
+                                            //Navigator.of(context).push(MaterialPageRoute(builder: (_) => ScanPage()));
+                                          }
+                                        },
+                                        color: (DateTime.now().isAfter(
+                                            currentDayTasksList[index].startTime) &&
+                                            DateTime.now().isBefore(
+                                                currentDayTasksList[index].endTime))
+                            ? colors['primary']![500]
+                            : colors['primary']![500]!.withOpacity(0.7),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(6.0),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                CSEOrganizersApp.camera,
+                                                  color: (DateTime.now().isAfter(
+                                              currentDayTasksList[index].startTime) &&
+                                              DateTime.now().isBefore(
+                                                  currentDayTasksList[index].endTime))
+                                            ? colors['shades']!['white']
+                                            : colors['shades']!['white']!.withOpacity(0.5) ,
+                                              ),
+                                              SizedBox(width: screenSize.width/50,),
+                                              Text(
+                                                'Scan',
+                                                style: TextStyle(
+                                                  color: (DateTime.now().isAfter(
+                                                      currentDayTasksList[index].startTime) &&
+                                                      DateTime.now().isBefore(
+                                                          currentDayTasksList[index].endTime))
+                                                      ? colors['shades']!['white']
+                                                      : colors['shades']!['white']!.withOpacity(0.7) ,
+                                                  fontFamily: 'CSEOrganizersApp',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 13,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      SizedBox(
+                                        width: screenSize.width / 20,
+                                      ),
+                                      MaterialButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16.0),
+                                        ),
+                                        elevation: 0.0,
+                                        onPressed: () {
+                                          if(DateTime.now().isAfter(
+                                              currentDayTasksList[index].startTime) &&
+                                              DateTime.now().isBefore(
+                                                  currentDayTasksList[index].endTime)){
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ParticipantsPage()));
+                                          }
+                                        },
+                                        color: colors['shades']!['white'],
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(6.0),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Participants',
+                                                style: TextStyle(
+                                                  color: (DateTime.now().isAfter(
+                                                      currentDayTasksList[index].startTime) &&
+                                                      DateTime.now().isBefore(
+                                                          currentDayTasksList[index].endTime))
+                                                      ? colors['shades']!['black']
+                                                      : colors['shades']!['black']!.withOpacity(0.3) ,
+                                                  fontFamily: 'CSEOrganizersApp',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              SizedBox(width: screenSize.width/50,),
+                                              Icon(
+                                                CSEOrganizersApp.arrow,
+                                                  color: (DateTime.now().isAfter(
+                                                  currentDayTasksList[index].startTime) &&
+                                                  DateTime.now().isBefore(
+                                                      currentDayTasksList[index].endTime))
+                                            ? colors['shades']!['black']
+                                            : colors['shades']!['black']!.withOpacity(0.3) ,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                        ),
+                        ),
+                      );
+                  } else {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          top: index == 0 ? 0.0 : 16.0, bottom: 16.0,left :24.0, right : 24.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: (DateTime.now().isAfter(
+                              currentDayTasksList[index].startTime) &&
+                              DateTime.now().isBefore(
+                                  currentDayTasksList[index].endTime))
+                              ? colors['primary']![100]
+                              : colors['shades']!['white'],
+
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
                             children: [
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child:
-                                        Text(currentDayTasksList[index].title),
+                                    Text(currentDayTasksList[index].title,style: TextStyle(
+                                      color: (DateTime.now().isAfter(
+                                          currentDayTasksList[index].startTime) &&
+                                          DateTime.now().isBefore(
+                                              currentDayTasksList[index].endTime))
+                                        ? colors['neutral']![900]
+                                        : colors['neutral']![900]!.withOpacity(0.3) ,
+                                      fontFamily: 'CSEOrganizersApp',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),),
                                   ),
                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      const Icon(CSEOrganizersApp.clock),
+                                      Icon(CSEOrganizersApp.clock,color:
+                                      (DateTime.now().isAfter(
+                                      currentDayTasksList[index].startTime) &&
+                                      DateTime.now().isBefore(
+                                          currentDayTasksList[index].endTime))
+                                      ? colors['neutral']![900]
+                                      : colors['neutral']![900]!.withOpacity(0.3),),
                                       Text(
-                                          ' ${currentDayTasksList[index].rawStartTime} - ${currentDayTasksList[index].rawEndTime}')
+                                          ' ${currentDayTasksList[index].rawStartTime} - ${currentDayTasksList[index].rawEndTime}'
+                                        ,style: TextStyle(
+                                        color: (DateTime.now().isAfter(
+                                            currentDayTasksList[index].startTime) &&
+                                            DateTime.now().isBefore(
+                                                currentDayTasksList[index].endTime))
+                                            ? colors['neutral']![900]
+                                            : colors['neutral']![900]!.withOpacity(0.3) ,
+                                        fontFamily: 'CSEOrganizersApp',
+                                      ),),
                                     ],
                                   ),
                                 ],
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8.0),
                                 child: Text(
-                                    currentDayTasksList[index].description),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 16.0),
-                                child: Divider(
-                                  color: colors['neutral']![900],
-                                  thickness: 1,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {},
-                                      color: colors['primary']![500],
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              CSEOrganizersApp.camera,
-                                              color: colors['shades']!['white'],
-                                            ),
-                                            Text(
-                                              'Scan',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      'CSEOrganizersApp',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: colors['shades']![
-                                                      'white']),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: screenSize.width / 20,
-                                    ),
-                                    MaterialButton(
-                                      onPressed: () {},
-                                      color: colors['shades']!['white'],
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'Participants ',
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      'CSEOrganizersApp',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: colors['shades']![
-                                                      'black']),
-                                            ),
-                                            Icon(
-                                              CSEOrganizersApp.arrow,
-                                              color: colors['shades']!['black'],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
+                                    currentDayTasksList[index].description,style:
+                                TextStyle(
+                                  color: (DateTime.now().isAfter(
+                                      currentDayTasksList[index].startTime) &&
+                                      DateTime.now().isBefore(
+                                          currentDayTasksList[index].endTime))
+                                      ? colors['neutral']![900]
+                                      : colors['neutral']![900]!.withOpacity(0.5) ,
+                                  fontFamily: 'CSEOrganizersApp',
+                                  fontSize: 13,
+                                ),),),
                             ],
                           ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
-                      child: Card(
-                        child: ListTile(
-                          title: Text(currentDayTasksList[index].title),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(CSEOrganizersApp.clock),
-                              Text(
-                                  ' ${currentDayTasksList[index].rawStartTime} - ${currentDayTasksList[index].rawEndTime}')
-                            ],
-                          ),
-                          subtitle:
-                              Text(currentDayTasksList[index].description),
                         ),
                       ),
                     );

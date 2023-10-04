@@ -35,7 +35,7 @@ class _ParticipantState extends State<Participant> {
     double l = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Container(
-      height: h * 0.143,
+      height: h > 600 ? h * 0.143 : h * 0.3,
       width: l * 0.8130,
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
@@ -100,12 +100,20 @@ class _ParticipantState extends State<Participant> {
                   ? Icon(
                       CSEOrganizersApp.checkbox,
                       color: constants.colors['primary']![500],
-                      size: l * 0.1121,
+                      size: l < 600
+                          ? l * 0.1121
+                          : l > 800
+                              ? l * 0.03
+                              : l * 0.07,
                     )
                   : Icon(
                       CSEOrganizersApp.checkboxChecked,
                       color: constants.colors['primary']![500],
-                      size: l * 0.1121,
+                      size: l < 600
+                          ? l * 0.1121
+                          : l > 800
+                              ? l * 0.03
+                              : l * 0.07,
                     ))
         ],
       ),

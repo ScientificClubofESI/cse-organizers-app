@@ -14,7 +14,7 @@ class ScanButton extends StatelessWidget {
     return GestureDetector(
       child: Container(
         width: l * 0.819,
-        height: h * 0.07,
+        height: h >600 ? h * 0.07 : h*0.15,
         decoration: BoxDecoration(
             color: constants.colors['secondary']![500], borderRadius: BorderRadius.circular(15)),
         margin: const EdgeInsets.only(bottom: 20),

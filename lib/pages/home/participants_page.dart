@@ -111,16 +111,18 @@ class _ParticipantPageState extends State<ParticipantPage> {
   Widget build(BuildContext context) {
     double l = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    double textSize = 25;
+    double textSize = l < 600 ? 25 : 20;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: h * 0.25,
+        toolbarHeight: h > 600 ? h * 0.25 : h * 0.3,
         elevation: 5,
         shadowColor: Colors.black45,
         // ignore: sized_box_for_whitespace
         title: Container(
-          height: h * 0.22,
+          padding:
+              l > 600 ? EdgeInsets.symmetric(vertical: 2) : EdgeInsets.all(0),
+          height: h > 600 ? h * 0.22 : h * 0.28,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -134,7 +136,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
                         color: constants.colors['neutral']![900])),
               ),
               Container(
-                height: h * 0.06,
+                height: h > 600 ? h * 0.06 : h * 0.08,
                 width: l * 0.8878,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -146,24 +148,22 @@ class _ParticipantPageState extends State<ParticipantPage> {
                           blurRadius: 15,
                           spreadRadius: 0)
                     ]),
-                child: Center(
-                  child: TextField(
-                    // controller: _searchcontroller,
-                    onChanged: (value) {
-                      setState(() {
-                        inputvalue = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        // SvgPicture.string(searchinput,height: 50,width:50,)
-                        prefixIcon: Icon(CSEOrganizersApp.search,
-                            color: constants.colors['neutral']![900]),
-                        hintText: 'Search Participants/Teams',
-                        hintStyle: TextStyle(
-                            fontSize: 19,
-                            color: constants.colors['neutral']![100])),
-                  ),
+                child: TextField(
+                  // controller: _searchcontroller,
+                  onChanged: (value) {
+                    setState(() {
+                      inputvalue = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      // SvgPicture.string(searchinput,height: 50,width:50,)
+                      prefixIcon: Icon(CSEOrganizersApp.search,
+                          color: constants.colors['neutral']![900]),
+                      hintText: 'Search Participants/Teams',
+                      hintStyle: TextStyle(
+                          fontSize: l > 600 ? 15 : 19,
+                          color: constants.colors['neutral']![100])),
                 ),
               ),
               Row(
@@ -177,8 +177,8 @@ class _ParticipantPageState extends State<ParticipantPage> {
                         });
                       },
                       child: Container(
-                        height: h * 0.05,
-                        width: l * 0.2710,
+                        height: h > 600 ? h * 0.05 : h * 0.07,
+                        width: l < 600 ? l * 0.2910 : l * 0.2,
                         // padding: EdgeInsets.symmetric(horizontal: item.id == 20 ? 2 : 0),
                         decoration: BoxDecoration(
                             color: index == item.id
@@ -211,7 +211,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 20),
-                width: 370,
+                width: l * 0.9,
                 padding: const EdgeInsets.only(bottom: 25),
                 decoration: BoxDecoration(
                     color: Colors.white,

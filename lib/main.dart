@@ -1,5 +1,6 @@
 import 'package:cse_organizers_app/pages/home_page.dart';
 import 'package:cse_organizers_app/pages/login_page.dart';
+import 'package:cse_organizers_app/pages/qrPage.dart';
 import 'package:flutter/material.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
 
@@ -15,9 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: constants.title,
+      initialRoute: "/scanPage",
       routes: {
         '/': (context) => const HomePage(title: constants.title),
         '/login': (context) => const LoginPage(),
+        '/scanPage':(context) => const QrPage(),
+        '/QrGenerator':(context) => QrGenerator(uid: "skdbuvizueb",),
       },
     );
   }

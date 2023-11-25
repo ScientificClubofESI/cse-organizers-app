@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/services/date_time_service.dart';
 import 'package:intl/intl.dart';
 
 class Task {
-  final String id, title, description, rawStartTime, rawEndTime;
+  final String id, title, description;
+  final Timestamp rawStartTime, rawEndTime;
   DateTime startTime = DateTime(0), endTime = DateTime(0);
   final bool checkIn;
   final List<String> organizers;
@@ -18,7 +20,9 @@ class Task {
     required this.checkIn,
     this.checkedParticipants,
   }) {
-    startTime = DateTimeService.parseTime(rawStartTime);
-    endTime = DateTimeService.parseTime(rawEndTime);
+    startTime = DateTime.fromMillisecondsSinceEpoch(
+        rawStartTime.millisecondsSinceEpoch);
+    endTime =
+        DateTime.fromMillisecondsSinceEpoch(rawEndTime.millisecondsSinceEpoch);
   }
 }

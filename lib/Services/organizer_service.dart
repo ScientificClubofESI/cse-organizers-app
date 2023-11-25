@@ -3,7 +3,7 @@ import 'package:cse_organizers_app/models/organizer.dart';
 import 'package:cse_organizers_app/models/task.dart';
 import 'package:cse_organizers_app/services/task_service.dart';
 
-class OrganizerService {
+/*class OrganizerService {
   final String event;
 
   OrganizerService({required this.event});
@@ -74,4 +74,4 @@ class OrganizerService {
       return null;
     }
   }
-}
+}*/

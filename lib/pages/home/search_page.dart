@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cse_organizers_app/Services/data_manager.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/constants.dart';
 import 'package:flutter/material.dart';
@@ -93,8 +94,8 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       result = organzerList
           .where((element) =>
-      element.fullName.toLowerCase().contains(word.toLowerCase()) ||
-          element.task.toLowerCase().contains(word.toLowerCase()))
+              element.fullName.toLowerCase().contains(word.toLowerCase()) ||
+              element.task.toLowerCase().contains(word.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -105,228 +106,239 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: colors['background']!['light'],
-        body: Column(
-          children: [
-            Container(
-              height: screenSize.height / 3.2,
-              color: const Color(0xFFF5F6F7),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: screenSize.height / 16,
-                  ),
-                  const Center(
-                    child: Text(
-                      "Search",
-                      style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w600,
-                          wordSpacing: 48),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await getOrganizers();
+      },
+      child: Scaffold(
+          backgroundColor: colors['background']!['light'],
+          body: Column(
+            children: [
+              Container(
+                height: screenSize.height / 3.2,
+                color: const Color(0xFFF5F6F7),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: screenSize.height / 16,
                     ),
-                  ),
-                  SizedBox(
-                    height: screenSize.height / 30,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: TextField(
-                      onChanged: (value) => runFilter(value),
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Search Orgnise",
-                        prefixIcon: const Icon(CSEOrganizersApp.search),
-                        prefixIconColor: Colors.black,
+                    const Center(
+                      child: Text(
+                        "Search",
+                        style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w600,
+                            wordSpacing: 48),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: screenSize.height / 30,
-                  ),
-                  Container(
-                    height: screenSize.height / 20,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Center(
-                      child: ListView.builder(
-                          itemCount: items.length,
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  current = index;
-                                  organzerList = page[index];
-                                  findList = organzerList;
-                                });
-                              },
-                              child: AnimatedContainer(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                margin: const EdgeInsets.symmetric(horizontal: 11),
-                                duration: const Duration(milliseconds: 300),
-                                width: screenSize.width / 4,
-                                height: screenSize.height / 20,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    color: current == index
-                                        ? Colors.blue
-                                        : Colors.white),
-                                child: Center(
-                                  child: Text(
-                                    items[index],
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
+                    SizedBox(
+                      height: screenSize.height / 30,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: TextField(
+                        onChanged: (value) => runFilter(value),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "Search Orgnise",
+                          prefixIcon: const Icon(CSEOrganizersApp.search),
+                          prefixIconColor: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenSize.height / 30,
+                    ),
+                    Container(
+                      height: screenSize.height / 20,
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Center(
+                        child: ListView.builder(
+                            itemCount: items.length,
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    current = index;
+                                    organzerList = page[index];
+                                    findList = organzerList;
+                                  });
+                                },
+                                child: AnimatedContainer(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 11),
+                                  duration: const Duration(milliseconds: 300),
+                                  width: screenSize.width / 4,
+                                  height: screenSize.height / 20,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      color: current == index
+                                          ? Colors.blue
+                                          : Colors.white),
+                                  child: Center(
+                                    child: Text(
+                                      items[index],
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            }),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-                child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 10),
-                    itemCount: findList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Adjust the radius as needed
-                          ),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: screenSize.height / 100,
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: screenSize.width / 60,
-                                  ),
-                                  const Icon(CSEOrganizersApp.userIcon, size: 28),
-                                  SizedBox(
-                                    width: screenSize.width / 60,
-                                  ),
-                                  Text(
-                                    "${findList[index].fullName}",
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    width: screenSize.width / 20,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 5),
-                                    decoration: BoxDecoration(
-                                      color: findList[index].bollea == false
-                                          ? Colors.green[200]
-                                          : Colors.red[200],
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      // Adjust the radius as needed
+              Expanded(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 27, vertical: 10),
+                      itemCount: findList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(
+                                  20.0), // Adjust the radius as needed
+                            ),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: screenSize.height / 100,
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenSize.width / 60,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: screenSize.width / 50,
-                                        ),
-                                        Icon(
-                                          Icons.circle,
-                                          color: findList[index].bollea == false
-                                              ? Colors.green[500]
-                                              : Colors.red[500],
-                                          size: 20,
-                                        ),
-                                        SizedBox(
-                                          width: screenSize.width / 40,
-                                        ),
-                                        Text(
-                                          findList[index].bollea == false
-                                              ? "Free"
-                                              : "Occupied",
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        SizedBox(
-                                          width: screenSize.width / 50,
-                                        ),
-                                      ],
+                                    const Icon(CSEOrganizersApp.userIcon,
+                                        size: 28),
+                                    SizedBox(
+                                      width: screenSize.width / 60,
                                     ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: screenSize.height / 100,
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: screenSize.width / 60,
-                                  ),
-                                  const Icon(
-                                    CSEOrganizersApp.phone,
-                                    size: 28,
-                                  ),
-                                  SizedBox(
-                                    width: screenSize.width / 60,
-                                  ),
-                                  Text("${findList[index].phone}",
+                                    Text(
+                                      "${findList[index].fullName}",
                                       style: const TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.w600))
-                                ],
-                              ),
-                              SizedBox(
-                                height: screenSize.height / 100,
-                              ),
-                              findList[index].bollea == true
-                                  ? Row(
-                                children: [
-                                  SizedBox(
-                                    width: screenSize.width / 60,
-                                  ),
-                                  const Icon(
-                                    CSEOrganizersApp.tasksActive,
-                                    size: 28,
-                                  ),
-                                  SizedBox(
-                                    width: screenSize.width / 60,
-                                  ),
-                                  Text("${findList[index].task}",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600))
-                                ],
-                              )
-                                  : const SizedBox(
-                                height: 0,
-                              ),
-                              SizedBox(
-                                height: screenSize.height / 100,
-                              ),
-                            ],
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width / 20,
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 5),
+                                      decoration: BoxDecoration(
+                                        color: findList[index].bollea == false
+                                            ? Colors.green[200]
+                                            : Colors.red[200],
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        // Adjust the radius as needed
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: screenSize.width / 50,
+                                          ),
+                                          Icon(
+                                            Icons.circle,
+                                            color:
+                                                findList[index].bollea == false
+                                                    ? Colors.green[500]
+                                                    : Colors.red[500],
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: screenSize.width / 40,
+                                          ),
+                                          Text(
+                                            findList[index].bollea == false
+                                                ? "Free"
+                                                : "Occupied",
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          SizedBox(
+                                            width: screenSize.width / 50,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: screenSize.height / 100,
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenSize.width / 60,
+                                    ),
+                                    const Icon(
+                                      CSEOrganizersApp.phone,
+                                      size: 28,
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width / 60,
+                                    ),
+                                    Text("${findList[index].phone}",
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: screenSize.height / 100,
+                                ),
+                                findList[index].bollea == true
+                                    ? Row(
+                                        children: [
+                                          SizedBox(
+                                            width: screenSize.width / 60,
+                                          ),
+                                          const Icon(
+                                            CSEOrganizersApp.tasksActive,
+                                            size: 28,
+                                          ),
+                                          SizedBox(
+                                            width: screenSize.width / 60,
+                                          ),
+                                          Text("${findList[index].task}",
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600))
+                                        ],
+                                      )
+                                    : const SizedBox(
+                                        height: 0,
+                                      ),
+                                SizedBox(
+                                  height: screenSize.height / 100,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }))
-          ],
-        ));
+                        );
+                      }))
+            ],
+          )),
+    );
   }
 }

@@ -17,7 +17,7 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  final List<String> daysList = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'];
+  final List<String> daysList = ['Day 1', 'Day 2', 'Day 3'];
   final List<Task> todaysTasks = [];
 
   late final Event event;
@@ -493,7 +493,7 @@ class _TasksPageState extends State<TasksPage> {
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
                               height: 45,
-                              width: 80,
+                              width: 120,
                               margin: const EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),

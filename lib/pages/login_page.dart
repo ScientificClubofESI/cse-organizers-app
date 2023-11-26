@@ -115,9 +115,8 @@ class LoginForm extends StatelessWidget {
                   if (emailController.text.isNotEmpty &&
                       passwordControler.text.isNotEmpty) {
                     await signIn(emailController.text.trim(),
-                        passwordControler.text.trim());
+                        passwordControler.text.trim(), context);
                   }
-                  Navigator.pushReplacementNamed(context, "/home");
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,

@@ -2,12 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/Services/data_manager.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-Future<void> signIn(String email, String password) async {
+Future<void> signIn(String email, String password, BuildContext context) async {
   try {
+    print("------------------------");
+
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     UserData.uid = credential.user!.uid;
+    Navigator.pushReplacementNamed(context, "/home");
+
     /*FirebaseFirestore.instance
         .collection('organisateurs')
         .doc(credential.user!.uid)
@@ -20,7 +25,7 @@ Future<void> signIn(String email, String password) async {
     });*/
     await getTasks();
     await getOrganizers();
-  } catch (e) {
+  } on FirebaseException catch (e) {
     print(e);
   }
   /*try {

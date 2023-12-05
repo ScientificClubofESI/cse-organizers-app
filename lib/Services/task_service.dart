@@ -21,6 +21,7 @@ class TaskService {
         rawStartTime: doc.get('start-time'),
         checkIn: doc.get('check-in'),
         checkedParticipants: doc.get('checked'),
+        day: doc.get('day'),
       );
     }).toList();
   }

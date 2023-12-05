@@ -1,10 +1,14 @@
 import 'package:cse_organizers_app/Services/auth_manager.dart';
-import 'package:cse_organizers_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +20,14 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
 
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -26,6 +35,8 @@ class LoginForm extends StatelessWidget {
     double textfieldWidthPercentage = 80.0;
     final emailController = TextEditingController();
     final passwordControler = TextEditingController();
+    String erreur = " ";
+    String msg = " ";
 
     double buttonWidth =
         (screenWidth * buttonWidthPercentage / 100).clamp(0, screenWidth);
@@ -106,34 +117,65 @@ class LoginForm extends StatelessWidget {
 
             const SizedBox(height: 50.0), // Spacer
 
-            SizedBox(
-              width: buttonWidth,
-              height: 59,
-              child: ElevatedButton(
-                onPressed: () async {
-                  // Handle login button press here
-                  if (emailController.text.isNotEmpty &&
-                      passwordControler.text.isNotEmpty) {
-                    await signIn(emailController.text.trim(),
-                        passwordControler.text.trim(), context);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20.0), // Button border radius
+            Column(
+              //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: buttonWidth,
+                  height: 59,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      // Handle login button press here
+                      if (emailController.text.isNotEmpty &&
+                          passwordControler.text.isNotEmpty) {
+                        await signIn(emailController.text.trim(),
+                            passwordControler.text.trim(), context);
+                      } else {
+                        print("msg derreur");
+                        setState(() {
+                          erreur = "Error :";
+                          msg = " try again ";
+                        });
+                      }
+                      // msg d'erreur
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Button border radius
+                        ),
+                        backgroundColor:
+                            const Color.fromRGBO(255, 212, 41, 1.0)),
+                    child: const Text(
+                      'Log in',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    backgroundColor: const Color.fromRGBO(255, 212, 41, 1.0)),
-                child: const Text(
-                  'Log in',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        erreur,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                            fontSize: 16),
+                      ),
+                      Text(
+                        msg,
+                        style: TextStyle(color: Colors.red, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),

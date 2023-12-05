@@ -11,6 +11,7 @@ Future<void> getTasks() async {
       .collection("tasks")
       .get(const GetOptions());
   UserData.tasks = [];
+
   querySnapshot.docs.forEach((element) {
     UserData.tasks.add(Task(
         id: element.id,
@@ -18,8 +19,9 @@ Future<void> getTasks() async {
         description: element.data()["description"],
         rawStartTime: element.data()["start_time"],
         rawEndTime: element.data()["end_time"],
-        organizers: ["Selmane"],
-        checkIn: false));
+        organizers: ["yas"],
+        day: element.data()["day"],
+        checkIn: element.data()["checkIn"]));
   });
 }
 

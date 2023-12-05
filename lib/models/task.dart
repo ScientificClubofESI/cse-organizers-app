@@ -9,6 +9,7 @@ class Task {
   final bool checkIn;
   final List<String> organizers;
   final List<String>? checkedParticipants;
+  final int day;
 
   Task({
     required this.id,
@@ -19,9 +20,9 @@ class Task {
     required this.organizers,
     required this.checkIn,
     this.checkedParticipants,
+    required this.day,
   }) {
-    startTime = DateTime.fromMillisecondsSinceEpoch(
-        rawStartTime.millisecondsSinceEpoch);
+    startTime = rawStartTime.toDate();
     endTime =
         DateTime.fromMillisecondsSinceEpoch(rawEndTime.millisecondsSinceEpoch);
   }

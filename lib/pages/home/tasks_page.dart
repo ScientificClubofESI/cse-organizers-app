@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/Services/data_manager.dart';
 import 'package:cse_organizers_app/constants.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
@@ -6,6 +5,7 @@ import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/models/event.dart';
 import 'package:cse_organizers_app/pages/home/participants_page.dart';
 import 'package:flutter/material.dart';
+import 'package:cse_organizers_app/Services/event_service.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/task.dart';
@@ -17,12 +17,11 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  final List<String> daysList = ['Day 1', 'Day 2', 'Day 3'];
+  final List<String> daysList = []; // liste des jours
   final List<Task> todaysTasks = [];
-
-  late final Event event;
-
+  late Event event;
   int current = 0;
+  late int eventDAYS = 3;
 
   /* final List<List<Task>> daysTaskList = <List<Task>>[
     <Task>[
@@ -416,13 +415,25 @@ class _TasksPageState extends State<TasksPage> {
           checkIn: true)
     ]
   ];*/
-  late List<Task> currentDayTasksList;
+  late List<Task> currentDayTasksList = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentDayTasksList = UserData.tasks;
+    //event.days.length
+    //initialiser le nombre de jours
+    for (var i = 1; i <= eventDAYS; i++) {
+      daysList.add("DAY $i");
+    }
+// initialisé la liste du 1er jour
+    for (var element in UserData.tasks) {
+      if (element.day == 1) {
+        currentDayTasksList.add(element);
+      }
+    }
+
     event = Event(id: 'id', name: 'Welcome day', days: daysList);
+
     currentDayTasksList.sort((a, b) => a.startTime.compareTo(b.startTime));
     // to test array sorting -- i'll implement the UI real time change with Provider.
     // Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -438,8 +449,11 @@ class _TasksPageState extends State<TasksPage> {
     return RefreshIndicator(
       onRefresh: () async {
         await getTasks();
+        print("task");
+        print(UserData.tasks[0].rawStartTime.toDate());
+        print("-----");
         setState(() {
-          currentDayTasksList = UserData.tasks;
+          // currentDayTasksList = UserData.tasks;
         });
       },
       child: Scaffold(
@@ -485,7 +499,13 @@ class _TasksPageState extends State<TasksPage> {
                             onTap: () {
                               setState(() {
                                 current = index;
-                                //currentDayTasksList = [];
+
+                                currentDayTasksList = [];
+                                for (var element in UserData.tasks) {
+                                  if (element.day == (index + 1)) {
+                                    currentDayTasksList.add(element);
+                                  }
+                                }
                                 currentDayTasksList.sort((a, b) =>
                                     a.startTime.compareTo(b.startTime));
                               });
@@ -594,7 +614,9 @@ class _TasksPageState extends State<TasksPage> {
                                                   .withOpacity(0.3),
                                         ),
                                         Text(
-                                          ' ${currentDayTasksList[index].rawStartTime} - ${currentDayTasksList[index].rawEndTime}',
+                                          '${DateFormat('HH:mm').format(currentDayTasksList[index].startTime)}-${DateFormat('HH:mm').format(currentDayTasksList[index].endTime)}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             color: (DateTime.now().isAfter(
                                                         currentDayTasksList[
@@ -614,6 +636,9 @@ class _TasksPageState extends State<TasksPage> {
                                     ),
                                   ],
                                 ),
+
+
+                                
                                 Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
@@ -875,7 +900,8 @@ class _TasksPageState extends State<TasksPage> {
                                                   .withOpacity(0.3),
                                         ),
                                         Text(
-                                          '${DateFormat('dd/MM/yyyy').format(currentDayTasksList[index].startTime)}-${DateFormat('dd/MM/yyyy').format(currentDayTasksList[index].endTime)}',
+                                          // '${currentDayTasksList[index].startTime.hour}:${currentDayTasksList[index].startTime.minute}',
+                                          '${DateFormat('HH:mm').format(currentDayTasksList[index].startTime)}-${DateFormat('HH:mm').format(currentDayTasksList[index].endTime)}',
                                           style: TextStyle(
                                               color: (DateTime.now().isAfter(
                                                           currentDayTasksList[

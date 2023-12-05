@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/models/event.dart';
-import 'package:cse_organizers_app/models/organizer.dart';
 
 abstract class EventService {
   static List<Event> _eventslist(QuerySnapshot snapshot) {

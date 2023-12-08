@@ -1,6 +1,7 @@
 class Event {
   final String id, name;
-  final List<String> days;
+  //final List<String> days;
+  List<String> days;
 
   Event({
     required this.id,

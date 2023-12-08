@@ -6,23 +6,24 @@ class ParticipantService {
 
   ParticipantService({required this.event});
 
-  static List<Participant> _participantslist(QuerySnapshot snapshot) {
+  static List<Participants> _participantslist(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return Participant(
+      return Participants(
         id: doc.id,
         fullName: doc.get("full-name"),
         phone: doc.get("phone"),
         team: doc.get("team"),
+        scannedbool: doc.get('scannedbool'),
       );
     }).toList();
   }
 
-  Future<List<Participant>?> getParticipantslist() async {
+  Future<List<Participants>?> getParticipantslist() async {
     try {
       final participantsSnapshot = await FirebaseFirestore.instance
           .collection('Event')
           .doc(event)
-          .collection('Participents')
+          .collection('Participants')
           .get();
 
       return _participantslist(participantsSnapshot);

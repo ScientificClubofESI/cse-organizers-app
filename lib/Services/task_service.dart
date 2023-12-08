@@ -59,7 +59,7 @@ class TaskService {
     String taskID,
   ) async {
     try {
-      final List<Participant> participants =
+      final List<Participants> participants =
           (await ParticipantService(event: event).getParticipantslist())!;
 
       return FirebaseFirestore.instance
@@ -71,7 +71,7 @@ class TaskService {
           .map(
         (task) {
           final Map<String, bool> checkInStatus = {};
-          for (Participant participant in participants) {
+          for (Participants participant in participants) {
             checkInStatus[participant.id] = false;
           }
           for (String participantID in task.get('checked')) {

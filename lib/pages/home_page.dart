@@ -10,13 +10,11 @@ class HomePage extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-
         body: const TabBarView(children: [
           AgendaPage(),
           TasksPage(),

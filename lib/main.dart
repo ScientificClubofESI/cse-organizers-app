@@ -30,8 +30,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
 /* 
   To use colors:
       import 'package:cse_organizers_app/constants.dart' as constants;

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/Services/data_manager.dart';
+import 'package:cse_organizers_app/Services/event_service.dart';
+import 'package:cse_organizers_app/data/event_data.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
+import 'package:cse_organizers_app/models/event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,17 @@ Future<void> signIn(String email, String password, BuildContext context) async {
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     UserData.uid = credential.user!.uid;
+    await getTasks();
+    await getOrganizers();
+
+    // initialisation de notre evenement je prends tjr la 1ere case
+    EventsData.events = (await EventService.getEventslist())!;
+    EventsData.eventInfo = EventsData.events[0];
+    print(EventsData.eventInfo!.id);
+    await getParticipants('rh51g2ICQPTSJaB9V8tr');
+    print("auth");
+    print(UserData.participants[0].fullName);
+
     Navigator.pushReplacementNamed(context, "/home");
 
     /*FirebaseFirestore.instance
@@ -23,8 +37,6 @@ Future<void> signIn(String email, String password, BuildContext context) async {
       "start_time": Timestamp.fromDate(DateTime(2023, 10, 31)),
       "end_time": Timestamp.fromDate(DateTime(2023, 10, 20))
     });*/
-    await getTasks();
-    await getOrganizers();
   } on FirebaseException catch (e) {
     print(e);
   }

@@ -1,4 +1,5 @@
 import 'package:cse_organizers_app/models/organizer.dart';
+import 'package:cse_organizers_app/models/participant.dart';
 import 'package:cse_organizers_app/models/task.dart';
 
 class UserData {
@@ -6,4 +7,5 @@ class UserData {
   static String? email;
   static List<Task> tasks = []; // tasks list
   static List<Organizer> organizers = []; // organizers list
+  static List<Participants> participants = []; // liste des
 }

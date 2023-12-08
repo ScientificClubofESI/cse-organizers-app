@@ -1,23 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/Services/data_manager.dart';
+import 'package:cse_organizers_app/data/user_data.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/constants.dart';
+import 'package:cse_organizers_app/models/organizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-
-class Organizer {
-  final String id, fullName, phone, task;
-  final bool bollea;
-
-  Organizer({
-    required this.id,
-    required this.fullName,
-    required this.phone,
-    required this.task,
-    required this.bollea,
-  });
-}
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -31,44 +20,6 @@ class _SearchPageState extends State<SearchPage> {
 
   List<String> items = ["All", "Free", "Occupied"];
 
-  List<Organizer> list = [
-    Organizer(
-        id: '1',
-        fullName: 'nohamed1',
-        phone: '0555411700',
-        task: 'task1',
-        bollea: true),
-    Organizer(
-        id: '1',
-        fullName: 'johamed5',
-        phone: '0555411700',
-        task: 'task',
-        bollea: false),
-    Organizer(
-        id: '1',
-        fullName: 'hohamed2',
-        phone: '0555411700',
-        task: 'task2',
-        bollea: true),
-    Organizer(
-        id: '1',
-        fullName: 'mohamed4',
-        phone: '0555411700',
-        task: 'task4',
-        bollea: true),
-    Organizer(
-        id: '1',
-        fullName: 'mohamed3',
-        phone: '0555411700',
-        task: 'task',
-        bollea: false),
-    Organizer(
-        id: '1',
-        fullName: 'mohamed6',
-        phone: '0555411700',
-        task: 'task6',
-        bollea: true),
-  ];
   late List<List<Organizer>> page = <List<Organizer>>[];
   late List<Organizer> organzerList = page[current];
   List<Organizer> freeTask = [];
@@ -78,9 +29,11 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     // TODO: implement initState
-    page.add(list);
-    freeTask = list.where((element) => element.bollea == false).toList();
-    occTask = list.where((element) => element.bollea == true).toList();
+    page.add(UserData.organizers);
+    freeTask =
+        UserData.organizers.where((element) => element.free != false).toList();
+    occTask =
+        UserData.organizers.where((element) => element.free != true).toList();
     page.add(freeTask);
     page.add(occTask);
     findList = organzerList;
@@ -94,8 +47,7 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       result = organzerList
           .where((element) =>
-              element.fullName.toLowerCase().contains(word.toLowerCase()) ||
-              element.task.toLowerCase().contains(word.toLowerCase()))
+              element.fullName.toLowerCase().contains(word.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -108,6 +60,7 @@ class _SearchPageState extends State<SearchPage> {
     Size screenSize = MediaQuery.of(context).size;
     return RefreshIndicator(
       onRefresh: () async {
+        UserData.organizers.clear();
         await getOrganizers();
       },
       child: Scaffold(
@@ -118,6 +71,7 @@ class _SearchPageState extends State<SearchPage> {
                 height: screenSize.height / 3.2,
                 color: const Color(0xFFF5F6F7),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
                       height: screenSize.height / 16,
@@ -126,14 +80,17 @@ class _SearchPageState extends State<SearchPage> {
                       child: Text(
                         "Search",
                         style: TextStyle(
-                            fontSize: 32,
+                            fontFamily: 'Poppins',
+                            fontSize: 26,
                             fontWeight: FontWeight.w600,
                             wordSpacing: 48),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(
+                    /* SizedBox(
                       height: screenSize.height / 30,
-                    ),
+                    ),*/
                     Container(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
@@ -145,15 +102,15 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: "Search Orgnise",
+                          hintText: "Search Orgniser",
                           prefixIcon: const Icon(CSEOrganizersApp.search),
                           prefixIconColor: Colors.black,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    /*    SizedBox(
                       height: screenSize.height / 30,
-                    ),
+                    ),*/
                     Container(
                       height: screenSize.height / 20,
                       width: double.infinity,
@@ -185,12 +142,19 @@ class _SearchPageState extends State<SearchPage> {
                                       color: current == index
                                           ? Colors.blue
                                           : Colors.white),
-                                  child: Center(
-                                    child: Text(
-                                      items[index],
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
+                                  child: SizedBox(
+                                    width: screenSize.width / 2,
+                                    child: Center(
+                                      child: Text(
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        items[index],
+                                        style: const TextStyle(
+                                            //  color: (current == index) ? Colors.blue : Colors.white,,
+                                            fontFamily: 'Poppins',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -222,29 +186,37 @@ class _SearchPageState extends State<SearchPage> {
                                   height: screenSize.height / 100,
                                 ),
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
-                                    SizedBox(
+                                    /* SizedBox(
                                       width: screenSize.width / 60,
-                                    ),
+                                    ),*/
                                     const Icon(CSEOrganizersApp.userIcon,
                                         size: 28),
-                                    SizedBox(
+                                    /*  SizedBox(
                                       width: screenSize.width / 60,
-                                    ),
-                                    Text(
-                                      "${findList[index].fullName}",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
+                                    ),*/
                                     SizedBox(
-                                      width: screenSize.width / 20,
+                                      width: screenSize.width / 2.5,
+                                      child: Text(
+                                        "${findList[index].fullName}",
+                                        style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
+                                    /*  SizedBox(
+                                      width: screenSize.width / 20,
+                                    ),*/
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 5),
                                       decoration: BoxDecoration(
-                                        color: findList[index].bollea == false
+                                        color: findList[index].free != false
                                             ? Colors.green[200]
                                             : Colors.red[200],
                                         borderRadius:
@@ -258,22 +230,27 @@ class _SearchPageState extends State<SearchPage> {
                                           ),
                                           Icon(
                                             Icons.circle,
-                                            color:
-                                                findList[index].bollea == false
-                                                    ? Colors.green[500]
-                                                    : Colors.red[500],
-                                            size: 20,
+                                            color: findList[index].free != false
+                                                ? Colors.green[500]
+                                                : Colors.red[500],
+                                            size: 16,
                                           ),
                                           SizedBox(
                                             width: screenSize.width / 40,
                                           ),
-                                          Text(
-                                            findList[index].bollea == false
-                                                ? "Free"
-                                                : "Occupied",
-                                            style: const TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w400),
+                                          SizedBox(
+                                            width: screenSize.width / 6,
+                                            child: Text(
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              findList[index].free == true
+                                                  ? "Free"
+                                                  : "Occupied",
+                                              style: const TextStyle(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
                                           ),
                                           SizedBox(
                                             width: screenSize.width / 50,
@@ -287,6 +264,7 @@ class _SearchPageState extends State<SearchPage> {
                                   height: screenSize.height / 100,
                                 ),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(
                                       width: screenSize.width / 60,
@@ -298,32 +276,27 @@ class _SearchPageState extends State<SearchPage> {
                                     SizedBox(
                                       width: screenSize.width / 60,
                                     ),
-                                    Text("${findList[index].phone}",
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600))
+                                    SizedBox(
+                                      width: screenSize.width / 1.6,
+                                      child: Text("${findList[index].phone}",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400)),
+                                    )
                                   ],
                                 ),
                                 SizedBox(
                                   height: screenSize.height / 100,
                                 ),
-                                findList[index].bollea == true
+                                findList[index].free == true
                                     ? Row(
                                         children: [
                                           SizedBox(
                                             width: screenSize.width / 60,
                                           ),
-                                          const Icon(
-                                            CSEOrganizersApp.tasksActive,
-                                            size: 28,
-                                          ),
-                                          SizedBox(
-                                            width: screenSize.width / 60,
-                                          ),
-                                          Text("${findList[index].task}",
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600))
                                         ],
                                       )
                                     : const SizedBox(

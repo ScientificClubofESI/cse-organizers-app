@@ -7,7 +7,7 @@ abstract class EventService {
       return Event(
         id: doc.id,
         name: doc.get('name'),
-        days: doc.get('days'),
+        days: List<String>.from(doc.get('days')),
       );
     }).toList();
   }
@@ -16,8 +16,10 @@ abstract class EventService {
     try {
       final QuerySnapshot eventsSnapshot =
           await FirebaseFirestore.instance.collection('Events').get();
+
       return _eventslist(eventsSnapshot);
     } catch (e) {
+      print('Error getting events: $e');
       return null;
     }
   }

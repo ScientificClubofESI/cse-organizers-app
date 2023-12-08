@@ -10,16 +10,16 @@ import 'package:cse_organizers_app/constants.dart' as constants;
 class Participant extends StatefulWidget {
   Participant(
       {super.key,
-        required this.name,
-        required this.team,
-        required this.phonenumber,
-        required this.scannedbool,
-        required this.addscannedparticipant,
-        required this.addunscannedparticipant});
+      required this.fullName,
+      required this.team,
+      required this.phone,
+      required this.scannedbool,
+      required this.addscannedparticipant,
+      required this.addunscannedparticipant});
 
-  final String name;
+  final String fullName;
   final String team;
-  final num phonenumber;
+  final String phone;
   final bool scannedbool;
   final VoidCallback addscannedparticipant;
   final VoidCallback addunscannedparticipant;
@@ -53,7 +53,7 @@ class _ParticipantState extends State<Participant> {
                 width: 200,
                 height: 30,
                 child: AutoSizeText(
-                  widget.name,
+                  widget.fullName,
                   maxLines: 2,
                   style: TextStyle(
                       color: constants.colors['neutral']![900],
@@ -74,7 +74,7 @@ class _ParticipantState extends State<Participant> {
                   children: [
                     Icon(CSEOrganizersApp.phoneOutlined),
                     Text(
-                      '0${widget.phonenumber}',
+                      '${widget.phone}',
                       style: TextStyle(
                           color: constants.colors['neutral']![900],
                           fontWeight: FontWeight.w500,
@@ -98,23 +98,23 @@ class _ParticipantState extends State<Participant> {
               },
               icon: widget.scannedbool == false
                   ? Icon(
-                CSEOrganizersApp.checkbox,
-                color: constants.colors['primary']![500],
-                size: l < 600
-                    ? l * 0.1121
-                    : l > 800
-                    ? l * 0.03
-                    : l * 0.07,
-              )
+                      CSEOrganizersApp.checkbox,
+                      color: constants.colors['primary']![500],
+                      size: l < 600
+                          ? l * 0.1121
+                          : l > 800
+                              ? l * 0.03
+                              : l * 0.07,
+                    )
                   : Icon(
-                CSEOrganizersApp.checkboxChecked,
-                color: constants.colors['primary']![500],
-                size: l < 600
-                    ? l * 0.1121
-                    : l > 800
-                    ? l * 0.03
-                    : l * 0.07,
-              ))
+                      CSEOrganizersApp.checkboxChecked,
+                      color: constants.colors['primary']![500],
+                      size: l < 600
+                          ? l * 0.1121
+                          : l > 800
+                              ? l * 0.03
+                              : l * 0.07,
+                    ))
         ],
       ),
     );

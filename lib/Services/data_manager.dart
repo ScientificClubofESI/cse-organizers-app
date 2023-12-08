@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
+import 'package:cse_organizers_app/models/event.dart';
 import 'package:cse_organizers_app/models/organizer.dart';
+import 'package:cse_organizers_app/models/participant.dart';
 import 'package:cse_organizers_app/models/task.dart';
 
 Future<void> getTasks() async {
@@ -39,5 +41,36 @@ Future<void> getOrganizers() async {
           email: organizer.data()["mail"],
           free: organizer.data()["free"]));
     }
+  }
+}
+
+Future<void> getParticipants(String event) async {
+  QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+      .instance
+      .collection("Events")
+      .doc(event)
+      .collection("participants")
+      .get(const GetOptions());
+  for (var participant in querySnapshot.docs) {
+    UserData.participants.add(Participants(
+      id: participant.id,
+      fullName: participant.data()["fullName"],
+      phone: participant.data()["phone"],
+      team: participant.data()['team'],
+      scannedbool: participant.data()['scannedbool'],
+    ));
+  }
+}
+
+Future<void> updateFreeOrgnizers(bool free) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('organisateurs')
+        .doc(UserData.uid)
+        .set({
+      'free': free,
+    }, SetOptions(merge: true));
+  } catch (e) {
+    print('Erreur lors de la mise à jour des données : $e');
   }
 }

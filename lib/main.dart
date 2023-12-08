@@ -1,6 +1,7 @@
 import 'package:cse_organizers_app/firebase_options.dart';
 import 'package:cse_organizers_app/pages/home_page.dart';
 import 'package:cse_organizers_app/pages/login_page.dart';
+import 'package:cse_organizers_app/pages/qrPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
@@ -22,10 +23,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: constants.title,
+      initialRoute: "/scanPage",
       routes: {
         '/': (context) => const LoginPage(),
         '/login': (context) => const LoginPage(),
-        '/home': (context) => const HomePage(),
+
+        '/scanPage':(context) => const QrPage(),
+        '/QrGenerator':(context) => QrGenerator(uid: "skdbuvizueb",),
+
       },
     );
   }

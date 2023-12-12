@@ -1,3 +1,4 @@
+import 'package:cse_organizers_app/Services/data_manager.dart';
 import 'package:cse_organizers_app/constants.dart';
 import 'package:cse_organizers_app/data/event_data.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
@@ -15,23 +16,19 @@ class _AgendaPageState extends State<AgendaPage> {
   int eventDAYS = EventsData.events[0].days.length;
   final List<String> daysList = []; // liste des jours
 
+  String currentDayList = ' ';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //event.days.length
-
+    currentDayList = EventsData.agenda[0];
     //initialiser le nombre de jours
     for (var i = 1; i <= eventDAYS; i++) {
       daysList.add("DAY $i");
     }
 
     // initialisé la liste du 1er jour
-    for (var element in UserData.tasks) {
-      if (element.day == 1) {
-        //j'ajoute limage de la 1ere journée
-      }
-    }
+    // currentDayList.add(agenda[0]);
   }
 
   @override
@@ -39,8 +36,9 @@ class _AgendaPageState extends State<AgendaPage> {
     Size screenSize = MediaQuery.of(context).size;
     return RefreshIndicator(
       onRefresh: () async {
-        //je recupere la liste des evenemnts
+        //je recupere la liste des photos
 
+        currentDayList = EventsData.agenda[current];
         setState(() {
           // currentDayTasksList = UserData.tasks;
         });
@@ -91,6 +89,8 @@ class _AgendaPageState extends State<AgendaPage> {
                               onTap: () {
                                 setState(() {
                                   current = index;
+
+                                  currentDayList = EventsData.agenda[index];
                                 });
                               },
                               child: AnimatedContainer(
@@ -133,20 +133,28 @@ class _AgendaPageState extends State<AgendaPage> {
               SizedBox(
                 height: screenSize.height / 30,
               ),
-              Text(
-                'Event Agenda',
-                style: TextStyle(
-                  color: colors['neutral']![900],
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Image.asset(
-                //je recupere limage de ma base de donnée
-                'assets/images/logo.png',
-                width: 200,
+              Column(
+                //    mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Event Agenda',
+                    style: TextStyle(
+                      color: colors['neutral']![900],
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Image.network(
+                    //je recupere limage de ma base de donnée
+                    '${currentDayList}',
+
+                    width: screenSize.width / 1.3,
+                    height: screenSize.height / 2,
+                    fit: BoxFit.cover,
+                  ),
+                ],
               ),
             ],
           ),

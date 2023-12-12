@@ -23,18 +23,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: constants.title,
-      initialRoute: "/scanPage",
+      initialRoute: "/",
       routes: {
         '/': (context) => const LoginPage(),
         '/login': (context) => const LoginPage(),
-
-        '/scanPage':(context) => const QrPage(),
-        '/QrGenerator':(context) => QrGenerator(uid: "skdbuvizueb",),
-
+        '/home': (context) => const HomePage(),
+        '/scanPage': (context) => const QrPage(),
+        '/QrGenerator': (context) => QrGenerator(
+              uid: "F0h36KvhrO2XFwi18WwS",
+            ),
       },
     );
   }
 }
+
 /* 
   To use colors:
       import 'package:cse_organizers_app/constants.dart' as constants;

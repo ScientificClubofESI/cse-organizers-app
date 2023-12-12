@@ -16,7 +16,7 @@ Future<void> signIn(String email, String password, BuildContext context) async {
     UserData.uid = credential.user!.uid;
     await getTasks();
     await getOrganizers();
-
+    EventsData.agenda = await getAgenda();
     // initialisation de notre evenement je prends tjr la 1ere case
     EventsData.events = (await EventService.getEventslist())!;
     EventsData.eventInfo = EventsData.events[0];

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cse_organizers_app/data/event_data.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
 import 'package:cse_organizers_app/models/event.dart';
 import 'package:cse_organizers_app/models/organizer.dart';
@@ -72,5 +73,41 @@ Future<void> updateFreeOrgnizers(bool free) async {
     }, SetOptions(merge: true));
   } catch (e) {
     print('Erreur lors de la mise à jour des données : $e');
+  }
+}
+
+Future<void> updateScannedParticipants(String uid, bool scanned) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('Events')
+        .doc(EventsData.eventInfo!.id)
+        .collection('participants')
+        .doc(uid)
+        .set({
+      'scannedbool': scanned,
+    }, SetOptions(merge: true));
+  } catch (e) {
+    print('Erreur lors de la mise à jour des données : $e');
+  }
+}
+
+Future<List<String>> getAgenda() async {
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('Agenda')
+        .doc('i29bNATGu7uA24ce3MxU')
+        .get();
+
+    if (documentSnapshot.exists) {
+      List<String> agendaArray = List<String>.from(documentSnapshot['days']);
+      return agendaArray;
+    } else {
+      // Document not found
+      print('Document not found');
+      return [];
+    }
+  } catch (e) {
+    print('Error getting agenda: $e');
+    return [];
   }
 }

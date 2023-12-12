@@ -56,7 +56,9 @@ class _QrPageState extends State<QrPage> {
               // ),
               // SizedBox(height: 20.0),
               Text(
-                (isVerified)?'Participant ID is valid':"Participant ID is unvalid",
+                (isVerified)
+                    ? 'Participant ID is valid'
+                    : "Participant ID is unvalid",
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -67,15 +69,18 @@ class _QrPageState extends State<QrPage> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Ferme la boîte de dialogue
                 },
-                icon: (isVerified)?Icon(
-                  CSEOrganizersApp.checkboxChecked,
-                  color: constants.colors["success"]![100],
-                  size: 40.0,
-                ):Icon(
-                  CSEOrganizersApp.unvalid,
-                  color: constants.colors["fail"]![100],
-                  size: 40.0,
-                ),)
+                icon: (isVerified)
+                    ? Icon(
+                        CSEOrganizersApp.checkboxChecked,
+                        color: constants.colors["success"]![100],
+                        size: 40.0,
+                      )
+                    : Icon(
+                        CSEOrganizersApp.unvalid,
+                        color: constants.colors["fail"]![100],
+                        size: 40.0,
+                      ),
+              )
             ],
           ),
         );

@@ -37,7 +37,6 @@ class _AgendaPageState extends State<AgendaPage> {
     return RefreshIndicator(
       onRefresh: () async {
         //je recupere la liste des photos
-
         currentDayList = EventsData.agenda[current];
         setState(() {
           // currentDayTasksList = UserData.tasks;
@@ -49,15 +48,24 @@ class _AgendaPageState extends State<AgendaPage> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              /// "Agenda" & days list
               Container(
-                height: screenSize.height / 5,
-                color: colors['shades']!['white'],
+                height: screenSize.height*0.19,
+                decoration: BoxDecoration(
+                  color: colors['shades']!['white'],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05), // Shadow color
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 5), // Positive Y value for bottom shadow
+                    ),
+                  ],
+                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    /*   SizedBox(
-                      height: screenSize.height / 16,
-                    ),*/
+                    ///"Agenda"
                     Container(
                       alignment: Alignment.topCenter,
                       child: Text(
@@ -65,15 +73,14 @@ class _AgendaPageState extends State<AgendaPage> {
                         style: TextStyle(
                           color: colors['neutral']![900],
                           fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 26,
+                          fontWeight: FontWeight.w900,
+                          fontSize: screenSize.width*0.074,
                         ),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(
-                      height: screenSize.height / 30,
-                    ),
+
+                    ///Days list
                     Container(
                       width: double.infinity,
                       height: 70,
@@ -89,14 +96,13 @@ class _AgendaPageState extends State<AgendaPage> {
                               onTap: () {
                                 setState(() {
                                   current = index;
-
                                   currentDayList = EventsData.agenda[index];
                                 });
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                height: 45,
-                                width: 120,
+                                height: screenSize.height*0.06,
+                                width: screenSize.width*0.27,
                                 margin: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
@@ -106,7 +112,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                 ),
                                 child: Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(0.0),
                                     child: Text(
                                       daysList[index],
                                       // event.days[index],
@@ -116,7 +122,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                             : colors['neutral']![900],
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 15,
+                                        fontSize: screenSize.height*0.021,
                                       ),
                                     ),
                                   ),
@@ -130,11 +136,12 @@ class _AgendaPageState extends State<AgendaPage> {
                   ],
                 ),
               ),
+              /// "Event Agenda" + agenda image
               SizedBox(
-                height: screenSize.height / 30,
+                height: screenSize.height*0.034,
               ),
               Column(
-                //    mainAxisAlignment: MainAxisAlignment.end,
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     'Event Agenda',
@@ -142,17 +149,21 @@ class _AgendaPageState extends State<AgendaPage> {
                       color: colors['neutral']![900],
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
-                      fontSize: 24,
+                      fontSize: screenSize.width*0.074,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Image.network(
-                    //je recupere limage de ma base de donnée
-                    '${currentDayList}',
-
-                    width: screenSize.width / 1.3,
-                    height: screenSize.height / 2,
-                    fit: BoxFit.cover,
+                  SizedBox( height: screenSize.height*0.04,),
+                  ///Agenda Image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      //je recupere limage de ma base de donnée
+                      '${currentDayList}',
+                      width: screenSize.width / 1.3,
+                      height: screenSize.height / 2,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ],
               ),

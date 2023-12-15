@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cse_organizers_app">
    <application
-        android:label="cse_organizers_app"
+        android:label="CSE Organizers App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

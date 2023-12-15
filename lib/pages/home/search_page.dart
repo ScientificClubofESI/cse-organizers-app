@@ -66,38 +66,51 @@ class _SearchPageState extends State<SearchPage> {
       child: Scaffold(
           backgroundColor: colors['background']!['light'],
           body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              /// "search"+ search field + list [all, occ ...]
               Container(
-                height: screenSize.height / 3.2,
-                color: const Color(0xFFF5F6F7),
+                height: screenSize.height*0.3,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F7),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05), // Shadow color
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 5), // Positive Y value for bottom shadow
+                    ),
+                  ],
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: screenSize.height / 16,
+                      height: screenSize.height*0.01,
                     ),
-                    const Center(
+
+                    ///"Search"
+                     Center(
                       child: Text(
                         "Search",
                         style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 26,
+                            fontSize: screenSize.width*0.074,
                             fontWeight: FontWeight.w600,
                             wordSpacing: 48),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    /* SizedBox(
-                      height: screenSize.height / 30,
-                    ),*/
+
+                    ///Search field
                     Container(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextField(
                         onChanged: (value) => runFilter(value),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
@@ -108,11 +121,10 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     ),
-                    /*    SizedBox(
-                      height: screenSize.height / 30,
-                    ),*/
+
+                    ///list [All,Free,Occupied]
                     Container(
-                      height: screenSize.height / 20,
+                      height: screenSize.height*0.034,
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Center(
@@ -130,10 +142,8 @@ class _SearchPageState extends State<SearchPage> {
                                   });
                                 },
                                 child: AnimatedContainer(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 11),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  margin: const EdgeInsets.symmetric(horizontal: 11),
                                   duration: const Duration(milliseconds: 300),
                                   width: screenSize.width / 4,
                                   height: screenSize.height / 20,
@@ -143,7 +153,7 @@ class _SearchPageState extends State<SearchPage> {
                                           ? Colors.blue
                                           : Colors.white),
                                   child: SizedBox(
-                                    width: screenSize.width / 2,
+                                    width: screenSize.width*0.271,
                                     child: Center(
                                       child: Text(
                                         maxLines: 1,

@@ -8,17 +8,6 @@ import 'package:cse_organizers_app/widgets/scanbutton.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
 
-// constants.colors[<name-of-color>]![<number-of-color>]
-
-// CSEOrganizersApp.<name-of-icon>
-
-/*class participantinfo {
-  final String name;
-  final String team;
-  final num phonenumber;
-  bool scannedbool;
-  participantinfo(this.name, this.team, this.phonenumber, this.scannedbool);
-}*/
 
 class action {
   final num id;
@@ -130,132 +119,152 @@ class _ParticipantPageState extends State<ParticipantPage> {
       },
       child: SafeArea(
         child: Scaffold(
-          body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            SizedBox(
-              height: screenSize.height / 40,
-            ),
-            Center(
-              child: Container(
-                // padding:  l > 600 ? EdgeInsets.symmetric(vertical: 2) : EdgeInsets.all(0),
-                height: h > 600 ? h * 0.22 : h * 0.28,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      //width: l * 0.47,
-                      child: Text('Participants',
+          backgroundColor: colors['background']!['light'],
+          body: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+
+              Center(
+                child: Container(
+                  // padding:  l > 600 ? EdgeInsets.symmetric(vertical: 2) : EdgeInsets.all(0),
+                  height: screenSize.height*0.25,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFBFE),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05), // Shadow color
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: Offset(0, 5), // Positive Y value for bottom shadow
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+
+                      ///"Participants"
+                      Center(
+                        child: Text(
+                          "Participants",
                           style: TextStyle(
-                              fontSize: textSize,
+                              fontFamily: 'Poppins',
+                              fontSize: screenSize.width*0.074,
                               fontWeight: FontWeight.w600,
-                              color: constants.colors['neutral']![900])),
-                    ),
-                    Center(
-                      child: Container(
-                        //  height: h > 600 ? h * 0.06 : h * 0.08,
-                        width: l * 0.8878,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: const Color.fromARGB(14, 0, 0, 0),
-                                  offset: const Offset(5, 3),
-                                  blurRadius: 15,
-                                  spreadRadius: 0)
-                            ]),
-                        child: TextField(
-                          //controller: _searchcontroller,
-                          onChanged: (value) {
-                            setState(() {
-                              inputvalue = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              // SvgPicture.string(searchinput,height: 50,width:50,)
-                              prefixIcon: Icon(CSEOrganizersApp.search,
-                                  color: constants.colors['neutral']![900]),
-                              hintText: 'Search Participants/Teams',
-                              hintStyle: TextStyle(
-                                  fontSize: l > 600 ? 15 : 19,
-                                  color: constants.colors['neutral']![100])),
+                              wordSpacing: 48),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                    SingleChildScrollView(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ...toggleactions.map((item) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  index = item.id;
-                                });
-                              },
-                              child: Center(
-                                child: Container(
-                                  height: h > 600 ? h * 0.05 : h * 0.07,
-                                  width: l < 600 ? l * 0.2910 : l * 0.2,
-                                  // padding: EdgeInsets.symmetric(horizontal: item.id == 20 ? 2 : 0),
-                                  decoration: BoxDecoration(
-                                      color: index == item.id
-                                          ? constants.colors['primary']![500]
-                                          : constants
-                                              .colors['background']!['light'],
-                                      borderRadius: BorderRadius.circular(20)),
-
-                                  child: Center(
-                                      child: Text(
-                                    item.actionstring,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 17,
+                     ///Search field
+                      Center(
+                        child: Container(
+                          width: l * 0.8878,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Color.fromARGB(14, 0, 0, 0),
+                                    offset: Offset(5, 3),
+                                    blurRadius: 15,
+                                    spreadRadius: 0)
+                              ]),
+                          child: TextField(
+                            //controller: _searchcontroller,
+                            onChanged: (value) {
+                              setState(() {
+                                inputvalue = value;
+                              });
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                // SvgPicture.string(searchinput,height: 50,width:50,)
+                                prefixIcon: Icon(CSEOrganizersApp.search,
+                                    color: constants.colors['neutral']![900]),
+                                hintText: 'Search Participants/Teams',
+                                hintStyle: TextStyle(
+                                    fontSize: l > 600 ? 15 : 19,
+                                    color: constants.colors['neutral']![100])),
+                          ),
+                        ),
+                      ),
+                      ///list [All,scanned,unscanned]
+                      SingleChildScrollView(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ...toggleactions.map((item) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    index = item.id;
+                                  });
+                                },
+                                child: Center(
+                                  child: Container(
+                                    height: screenSize.height*0.034,
+                                    width: screenSize.width*0.271,
+                                    // padding: EdgeInsets.symmetric(horizontal: item.id == 20 ? 2 : 0),
+                                    decoration: BoxDecoration(
                                         color: index == item.id
-                                            ? Colors.white
+                                            ? constants.colors['primary']![500]
                                             : constants
-                                                .colors['neutral']![900]),
-                                  )),
+                                                .colors['background']!['light'],
+                                        borderRadius: BorderRadius.circular(16)),
+
+                                    child: Center(
+                                        child: Text(
+                                      item.actionstring,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                          fontSize: 17,
+                                          color: index == item.id
+                                              ? Colors.white
+                                              : constants
+                                                  .colors['neutral']![900]),
+                                    )),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                    )
-                  ],
+                              );
+                            }),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 20, bottom: 20),
-                      width: l * 0.9,
-                      padding: const EdgeInsets.only(bottom: 25),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromARGB(255, 210, 227, 255),
-                              blurRadius: 40,
-                            )
-                          ]),
-                      child: Wrap(
-                        children: [...participantstoappear()],
+              ///List of participants
+              SingleChildScrollView(
+                child: Container(
+                  height: screenSize.height*0.7,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, bottom: 20),
+                        width: l * 0.887,
+                        padding: const EdgeInsets.only(bottom: 25),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+
+                        ),
+                        child: Wrap(
+                          children: [...participantstoappear()],
+                        ),
                       ),
-                    ),
-                    ScanButton(),
-                  ],
+                      const ScanButton(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );

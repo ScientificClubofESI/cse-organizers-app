@@ -1,5 +1,6 @@
 import 'package:cse_organizers_app/Services/auth_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Color(0xFFF3F7FE),
       body: Center(
         child: LoginForm(),
@@ -30,7 +31,9 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
+
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
     double buttonWidthPercentage = 75.0;
     double textfieldWidthPercentage = 80.0;
     final emailController = TextEditingController();
@@ -49,29 +52,29 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            //Logo part
-            Image.asset(
-              'assets/images/logo.png',
-              width: 200,
-            ),
+            ///Logo
+            SizedBox(height: screenheight*0.05),
+            SvgPicture.asset('assets/images/CSE_Logo_Plexus_Dark.svg',width: screenheight*0.27,height: screenheight*0.27),
+             SizedBox(height: screenheight*0.086), // Spacer
 
-            const SizedBox(height: 20.0), // Spacer
-
+            ///Log in to cont
             const Text(
               'Log in to continue',
               style: TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: 'CSEOrganizersApp',
                 fontSize: 18.0, // Adjust the font size as needed
-                color: Color.fromRGBO(38, 38, 38, 1), // Set the text color
+                color: Color.fromRGBO(38, 38, 38, 1),
+                fontWeight: FontWeight.w700// Set the text color
               ),
             ),
+            SizedBox(height: screenheight*0.069), // Spacer
 
-            const SizedBox(height: 50.0), // Spacer
-
+            ///Email field
             Container(
-              width: textFieldWidth,
+              width: screenWidth*0.81,
+              height: screenheight*0.06,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0), // the border radius
+                borderRadius: BorderRadius.circular(16.0), // the border radius
                 color: Colors.white, //the textfield's background color to white
               ),
               child: TextField(
@@ -83,20 +86,21 @@ class _LoginFormState extends State<LoginForm> {
                   hintStyle: TextStyle(
                     // Adjust font style for the label
                     fontSize: 16.0, // Set the font size
-                    fontFamily: 'Poppins',
+                    fontFamily: 'CSEOrganizersApp',
                     color: Color.fromRGBO(170, 170, 170, 1),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: screenheight*0.02), // Spacer
 
-            const SizedBox(height: 24.0), // Spacer
-
+            ///Password field
             Container(
-              width: textFieldWidth,
+              width: screenWidth*0.81,
+              height: screenheight*0.06,
               decoration: BoxDecoration(
                 borderRadius:
-                    BorderRadius.circular(20.0), // Set the border radius
+                    BorderRadius.circular(16.0), // Set the border radius
                 color: Colors.white, // Set the background color to white
               ),
               child: TextField(
@@ -109,20 +113,19 @@ class _LoginFormState extends State<LoginForm> {
                   hintStyle: TextStyle(
                       // Adjust font style for the label
                       fontSize: 16.0, // Set the font size
-                      fontFamily: 'Poppins',
+                      fontFamily: 'CSEOrganizersApp',
                       color: Color.fromRGBO(170, 170, 170, 1)),
                 ),
               ),
             ),
+            SizedBox(height: screenheight*0.086), // Spacer
 
-            const SizedBox(height: 50.0), // Spacer
-
+            ///Log in button & Error text
             Column(
-              //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: buttonWidth,
-                  height: 59,
+                  width: screenWidth*0.724,
+                  height: screenheight*0.064,
                   child: ElevatedButton(
                     onPressed: () async {
                       // Handle login button press here
@@ -142,35 +145,35 @@ class _LoginFormState extends State<LoginForm> {
                     style: ElevatedButton.styleFrom(
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              20.0), // Button border radius
+                          borderRadius: BorderRadius.circular(16.0), // Button border radius
                         ),
-                        backgroundColor:
-                            const Color.fromRGBO(255, 212, 41, 1.0)),
+                        backgroundColor: const Color(0xFFFFD429)),
                     child: const Text(
                       'Log in',
                       style: TextStyle(
                         fontSize: 18.0,
-                        fontFamily: 'Poppins',
+                        fontFamily: 'CSEOrganizersApp',
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
+                ///error text
                 SizedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         erreur,
-                        style: TextStyle(
+                        style: const TextStyle(
+                            fontFamily: 'CSEOrganizersApp',
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
                             fontSize: 16),
                       ),
                       Text(
                         msg,
-                        style: TextStyle(color: Colors.red, fontSize: 16),
+                        style: const TextStyle(color: Colors.red, fontSize: 16,fontFamily: 'CSEOrganizersApp',),
                       ),
                     ],
                   ),

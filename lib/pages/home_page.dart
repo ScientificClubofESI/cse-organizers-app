@@ -15,18 +15,23 @@ class HomePage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        body: const TabBarView(children: [
+        body: const TabBarView(
+            children: [
           AgendaPage(),
           TasksPage(),
           SearchPage(),
         ]),
         bottomNavigationBar: Container(
-          color: Colors.blue,
+          decoration: const BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25),bottomRight: Radius.zero,bottomLeft:Radius.zero),
+          ),
           child: const TabBar(
             tabs: [
               Tab(
                 icon: Icon(CSEOrganizersApp.agenda),
                 text: 'Agenda',
+
               ),
               Tab(
                 icon: Icon(CSEOrganizersApp.tasks),

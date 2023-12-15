@@ -56,6 +56,7 @@ class _ParticipantState extends State<Participant> {
                   widget.fullName,
                   maxLines: 2,
                   style: TextStyle(
+                    fontFamily: "Poppins",
                       color: constants.colors['neutral']![900],
                       fontSize: 22,
                       fontWeight: FontWeight.w700),
@@ -64,6 +65,7 @@ class _ParticipantState extends State<Participant> {
               Text(
                 '(${widget.team}) ',
                 style: TextStyle(
+                    fontFamily: "Poppins",
                     fontSize: 18,
                     color: constants.colors['neutral']![200],
                     fontWeight: FontWeight.w400),
@@ -76,6 +78,8 @@ class _ParticipantState extends State<Participant> {
                     Text(
                       '${widget.phone}',
                       style: TextStyle(
+                          fontFamily: "Poppins",
+
                           color: constants.colors['neutral']![900],
                           fontWeight: FontWeight.w500,
                           fontSize: 20),

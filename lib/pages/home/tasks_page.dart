@@ -184,7 +184,7 @@ class _TasksPageState extends State<TasksPage> {
             children: [
               ///"My tasks" + days list
               Container(
-                height: screenSize.height*0.19,
+                height: screenSize.height * 0.19,
                 decoration: BoxDecoration(
                   color: colors['shades']!['white'],
                   boxShadow: [
@@ -192,7 +192,8 @@ class _TasksPageState extends State<TasksPage> {
                       color: Colors.black.withOpacity(0.05), // Shadow color
                       spreadRadius: 2,
                       blurRadius: 10,
-                      offset: Offset(0, 5), // Positive Y value for bottom shadow
+                      offset:
+                          Offset(0, 5), // Positive Y value for bottom shadow
                     ),
                   ],
                 ),
@@ -208,7 +209,7 @@ class _TasksPageState extends State<TasksPage> {
                           color: colors['neutral']![900],
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
-                          fontSize: screenSize.width*0.074,
+                          fontSize: screenSize.width * 0.074,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -243,8 +244,8 @@ class _TasksPageState extends State<TasksPage> {
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                height: screenSize.height*0.06,
-                                width: screenSize.width*0.27,
+                                height: screenSize.height * 0.06,
+                                width: screenSize.width * 0.27,
                                 margin: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
@@ -264,7 +265,7 @@ class _TasksPageState extends State<TasksPage> {
                                             : colors['neutral']![900],
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: screenSize.height*0.021,
+                                        fontSize: screenSize.height * 0.021,
                                       ),
                                     ),
                                   ),
@@ -286,42 +287,57 @@ class _TasksPageState extends State<TasksPage> {
                       if (currentDayTasksList[index].checkIn == true) {
                         return Padding(
                           padding: EdgeInsets.only(
-                              top: screenSize.height*0.025,
+                              top: screenSize.height * 0.025,
                               bottom: 0.0,
                               left: 24.0,
                               right: 24.0),
                           child: Container(
-                            height: screenSize.height*0.226,
+                            height: screenSize.height * 0.226,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: (DateTime.now().isAfter(currentDayTasksList[index].startTime) && DateTime.now().isBefore(currentDayTasksList[index].endTime))
+                              color: (DateTime.now().isAfter(
+                                          currentDayTasksList[index]
+                                              .startTime) &&
+                                      DateTime.now().isBefore(
+                                          currentDayTasksList[index].endTime))
                                   ? colors['primary']![100]
                                   : colors['shades']!['white'],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 13.0,vertical: 16.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 13.0, vertical: 16.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   ///First row titel +time
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       ///title
                                       Padding(
                                         padding: const EdgeInsets.all(0.0),
                                         child: SizedBox(
-                                          width: screenSize.width*0.4,
-                                          height: screenSize.height*0.032,
+                                          width: screenSize.width * 0.4,
+                                          height: screenSize.height * 0.032,
                                           child: AutoSizeText(
                                             currentDayTasksList[index].title,
                                             style: TextStyle(
-                                              color: (DateTime.now().isAfter(currentDayTasksList[index].startTime) &&
-                                                      DateTime.now().isBefore(currentDayTasksList[index].endTime))
+                                              color: (DateTime.now().isAfter(
+                                                          currentDayTasksList[
+                                                                  index]
+                                                              .startTime) &&
+                                                      DateTime.now().isBefore(
+                                                          currentDayTasksList[
+                                                                  index]
+                                                              .endTime))
                                                   ? colors['neutral']![900]
-                                                  : colors['neutral']![900]!.withOpacity(0.3),
+                                                  : colors['neutral']![900]!
+                                                      .withOpacity(0.3),
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w600,
                                               fontSize: 20,
@@ -330,6 +346,7 @@ class _TasksPageState extends State<TasksPage> {
                                           ),
                                         ),
                                       ),
+
                                       ///Row of time
                                       Row(
                                         crossAxisAlignment:
@@ -350,32 +367,37 @@ class _TasksPageState extends State<TasksPage> {
                                                 : colors['neutral']![900]!
                                                     .withOpacity(0.3),
                                           ),
-                                          Text(
-                                            '${DateFormat('HH:mm').format(currentDayTasksList[index].startTime)}-${DateFormat('HH:mm').format(currentDayTasksList[index].endTime)}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: (DateTime.now().isAfter(
-                                                          currentDayTasksList[
-                                                                  index]
-                                                              .startTime) &&
-                                                      DateTime.now().isBefore(
-                                                          currentDayTasksList[
-                                                                  index]
-                                                              .endTime))
-                                                  ? colors['neutral']![900]
-                                                  : colors['neutral']![900]!
-                                                      .withOpacity(0.3),
-                                              fontFamily: 'Poppins',
+                                          SizedBox(
+                                            width: screenSize.width / 4,
+                                            child: Text(
+                                              '${DateFormat('HH:mm').format(currentDayTasksList[index].startTime)}-${DateFormat('HH:mm').format(currentDayTasksList[index].endTime)}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: (DateTime.now().isAfter(
+                                                            currentDayTasksList[
+                                                                    index]
+                                                                .startTime) &&
+                                                        DateTime.now().isBefore(
+                                                            currentDayTasksList[
+                                                                    index]
+                                                                .endTime))
+                                                    ? colors['neutral']![900]
+                                                    : colors['neutral']![900]!
+                                                        .withOpacity(0.3),
+                                                fontFamily: 'Poppins',
+                                              ),
                                             ),
                                           )
                                         ],
                                       ),
                                     ],
                                   ),
+
                                   ///Task description
                                   Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 0.0),
                                       child: Text(
                                         currentDayTasksList[index].description,
                                         style: TextStyle(
@@ -392,21 +414,26 @@ class _TasksPageState extends State<TasksPage> {
                                           fontSize: 13,
                                         ),
                                       )),
+
                                   ///Divider
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 00.0, vertical: 00.0),
                                     child: Divider(
                                       height: 0.0,
-
-                                      color: (DateTime.now().isAfter(currentDayTasksList[index].startTime) &&
-                                              DateTime.now().isBefore(currentDayTasksList[index].endTime))
+                                      color: (DateTime.now().isAfter(
+                                                  currentDayTasksList[index]
+                                                      .startTime) &&
+                                              DateTime.now().isBefore(
+                                                  currentDayTasksList[index]
+                                                      .endTime))
                                           ? colors['neutral']![900]
                                           : colors['neutral']![900]!
                                               .withOpacity(0.5),
                                       thickness: 1,
                                     ),
                                   ),
+
                                   ///Scan & Partic buttons
                                   Align(
                                     child: Padding(
@@ -423,7 +450,7 @@ class _TasksPageState extends State<TasksPage> {
                                               borderRadius:
                                                   BorderRadius.circular(16.0),
                                             ),
-                                            height: screenSize.height*0.06,
+                                            height: screenSize.height * 0.06,
                                             elevation: 0.0,
                                             onPressed: () async {
                                               await scanQR();
@@ -442,16 +469,19 @@ class _TasksPageState extends State<TasksPage> {
                                               }
                                             },
                                             color: (DateTime.now().isAfter(
-                                                        currentDayTasksList[index]
+                                                        currentDayTasksList[
+                                                                index]
                                                             .startTime) &&
                                                     DateTime.now().isBefore(
-                                                        currentDayTasksList[index]
+                                                        currentDayTasksList[
+                                                                index]
                                                             .endTime))
                                                 ? colors['primary']![500]
                                                 : colors['primary']![500]!
                                                     .withOpacity(0.7),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(6.0),
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
                                               child: Row(
                                                 children: [
                                                   Icon(
@@ -471,7 +501,8 @@ class _TasksPageState extends State<TasksPage> {
                                                             .withOpacity(0.5),
                                                   ),
                                                   SizedBox(
-                                                    width: screenSize.width / 50,
+                                                    width:
+                                                        screenSize.width / 50,
                                                   ),
                                                   Text(
                                                     'Scan',
@@ -490,7 +521,8 @@ class _TasksPageState extends State<TasksPage> {
                                                                   'white']!
                                                               .withOpacity(0.7),
                                                       fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontSize: 13,
                                                     ),
                                                   )
@@ -498,7 +530,7 @@ class _TasksPageState extends State<TasksPage> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: screenSize.width*0.1,),
+
                                           ///Participants button
                                           MaterialButton(
                                             shape: RoundedRectangleBorder(
@@ -506,8 +538,7 @@ class _TasksPageState extends State<TasksPage> {
                                                   BorderRadius.circular(16.0),
                                             ),
                                             elevation: 0.0,
-                                            height: screenSize.height*0.06,
-
+                                            height: screenSize.height * 0.06,
                                             onPressed: () {
                                               Navigator.push(
                                                   context,
@@ -517,14 +548,45 @@ class _TasksPageState extends State<TasksPage> {
                                             },
                                             color: colors['shades']!['white'],
                                             child: Padding(
-                                              padding: const EdgeInsets.all(6.0),
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  Text(
-                                                    'Participants',
-                                                    style: TextStyle(
+                                                  SizedBox(
+                                                    width: screenSize.width / 4,
+                                                    child: Text(
+                                                      'Participants',
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        color: (DateTime.now().isAfter(
+                                                                    currentDayTasksList[index]
+                                                                        .startTime) &&
+                                                                DateTime.now().isBefore(
+                                                                    currentDayTasksList[
+                                                                            index]
+                                                                        .endTime))
+                                                            ? colors['shades']![
+                                                                'black']
+                                                            : colors['shades']![
+                                                                    'black']!
+                                                                .withOpacity(
+                                                                    0.3),
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 13,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        screenSize.width / 400,
+                                                    child: Icon(
+                                                      CSEOrganizersApp.arrow,
                                                       color: (DateTime.now().isAfter(
                                                                   currentDayTasksList[
                                                                           index]
@@ -538,29 +600,7 @@ class _TasksPageState extends State<TasksPage> {
                                                           : colors['shades']![
                                                                   'black']!
                                                               .withOpacity(0.3),
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 13,
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: screenSize.width / 50,
-                                                  ),
-                                                  Icon(
-                                                    CSEOrganizersApp.arrow,
-                                                    color: (DateTime.now().isAfter(
-                                                                currentDayTasksList[
-                                                                        index]
-                                                                    .startTime) &&
-                                                            DateTime.now().isBefore(
-                                                                currentDayTasksList[
-                                                                        index]
-                                                                    .endTime))
-                                                        ? colors['shades']![
-                                                            'black']
-                                                        : colors['shades']![
-                                                                'black']!
-                                                            .withOpacity(0.3),
                                                   ),
                                                 ],
                                               ),
@@ -578,13 +618,12 @@ class _TasksPageState extends State<TasksPage> {
                       } else {
                         return Padding(
                           padding: EdgeInsets.only(
-                              top: screenSize.height*0.025,
+                              top: screenSize.height * 0.025,
                               bottom: 0.0,
                               left: 24.0,
                               right: 24.0),
                           child: Container(
-                            height: screenSize.height*0.129,
-
+                            height: screenSize.height * 0.129,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: (DateTime.now().isAfter(
@@ -596,7 +635,8 @@ class _TasksPageState extends State<TasksPage> {
                                   : colors['shades']!['white'],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 13.0,vertical: 16.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 13.0, vertical: 16.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -610,9 +650,8 @@ class _TasksPageState extends State<TasksPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 0.0),
                                         child: SizedBox(
-                                          width: screenSize.width*0.4,
-                                          height: screenSize.height*0.032,
-
+                                          width: screenSize.width * 0.4,
+                                          height: screenSize.height * 0.032,
                                           child: AutoSizeText(
                                             currentDayTasksList[index].title,
                                             style: TextStyle(
@@ -632,10 +671,10 @@ class _TasksPageState extends State<TasksPage> {
                                               fontSize: 20,
                                             ),
                                             maxLines: 1,
-
                                           ),
                                         ),
                                       ),
+
                                       ///Row of time
                                       Row(
                                         crossAxisAlignment:
@@ -656,24 +695,27 @@ class _TasksPageState extends State<TasksPage> {
                                                 : colors['neutral']![900]!
                                                     .withOpacity(0.3),
                                           ),
-                                          Text(
-                                            // '${currentDayTasksList[index].startTime.hour}:${currentDayTasksList[index].startTime.minute}',
-                                            '${DateFormat('HH:mm').format(currentDayTasksList[index].startTime)}-${DateFormat('HH:mm').format(currentDayTasksList[index].endTime)}',
-                                            style: TextStyle(
-                                                color: (DateTime.now().isAfter(
-                                                            currentDayTasksList[
-                                                                    index]
-                                                                .startTime) &&
-                                                        DateTime.now().isBefore(
-                                                            currentDayTasksList[
-                                                                    index]
-                                                                .endTime))
-                                                    ? colors['neutral']![900]
-                                                    : colors['neutral']![900]!
-                                                        .withOpacity(0.3),
-                                                fontFamily: 'Poppins',
-                                                overflow:
-                                                    TextOverflow.ellipsis),
+                                          SizedBox(
+                                            width: screenSize.width / 4,
+                                            child: Text(
+                                              // '${currentDayTasksList[index].startTime.hour}:${currentDayTasksList[index].startTime.minute}',
+                                              '${DateFormat('HH:mm').format(currentDayTasksList[index].startTime)}-${DateFormat('HH:mm').format(currentDayTasksList[index].endTime)}',
+                                              style: TextStyle(
+                                                  color: (DateTime.now().isAfter(
+                                                              currentDayTasksList[
+                                                                      index]
+                                                                  .startTime) &&
+                                                          DateTime.now().isBefore(
+                                                              currentDayTasksList[
+                                                                      index]
+                                                                  .endTime))
+                                                      ? colors['neutral']![900]
+                                                      : colors['neutral']![900]!
+                                                          .withOpacity(0.3),
+                                                  fontFamily: 'Poppins',
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                            ),
                                           ),
                                         ],
                                       ),

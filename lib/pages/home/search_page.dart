@@ -28,6 +28,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
+    page = [];
     // TODO: implement initState
     page.add(UserData.organizers);
     freeTask =
@@ -70,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               /// "search"+ search field + list [all, occ ...]
               Container(
-                height: screenSize.height*0.3,
+                height: screenSize.height * 0.3,
                 decoration: BoxDecoration(
                   color: const Color(0xFFF5F6F7),
                   boxShadow: [
@@ -78,7 +79,8 @@ class _SearchPageState extends State<SearchPage> {
                       color: Colors.black.withOpacity(0.05), // Shadow color
                       spreadRadius: 2,
                       blurRadius: 10,
-                      offset: Offset(0, 5), // Positive Y value for bottom shadow
+                      offset:
+                          Offset(0, 5), // Positive Y value for bottom shadow
                     ),
                   ],
                 ),
@@ -86,16 +88,16 @@ class _SearchPageState extends State<SearchPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: screenSize.height*0.01,
+                      height: screenSize.height * 0.01,
                     ),
 
                     ///"Search"
-                     Center(
+                    Center(
                       child: Text(
                         "Search",
                         style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: screenSize.width*0.074,
+                            fontSize: screenSize.width * 0.074,
                             fontWeight: FontWeight.w600,
                             wordSpacing: 48),
                         maxLines: 1,
@@ -124,7 +126,7 @@ class _SearchPageState extends State<SearchPage> {
 
                     ///list [All,Free,Occupied]
                     Container(
-                      height: screenSize.height*0.034,
+                      height: screenSize.height * 0.034,
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Center(
@@ -142,8 +144,10 @@ class _SearchPageState extends State<SearchPage> {
                                   });
                                 },
                                 child: AnimatedContainer(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  margin: const EdgeInsets.symmetric(horizontal: 11),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 11),
                                   duration: const Duration(milliseconds: 300),
                                   width: screenSize.width / 4,
                                   height: screenSize.height / 20,
@@ -153,7 +157,7 @@ class _SearchPageState extends State<SearchPage> {
                                           ? Colors.blue
                                           : Colors.white),
                                   child: SizedBox(
-                                    width: screenSize.width*0.271,
+                                    width: screenSize.width * 0.271,
                                     child: Center(
                                       child: Text(
                                         maxLines: 1,

@@ -8,7 +8,6 @@ import 'package:cse_organizers_app/widgets/scanbutton.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
 import 'package:cse_organizers_app/constants.dart' as constants;
 
-
 class action {
   final num id;
   final String actionstring;
@@ -121,14 +120,12 @@ class _ParticipantPageState extends State<ParticipantPage> {
         child: Scaffold(
           backgroundColor: colors['background']!['light'],
           body: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Center(
                 child: Container(
                   // padding:  l > 600 ? EdgeInsets.symmetric(vertical: 2) : EdgeInsets.all(0),
-                  height: screenSize.height*0.25,
+                  height: screenSize.height * 0.25,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFFBFE),
                     boxShadow: [
@@ -136,28 +133,29 @@ class _ParticipantPageState extends State<ParticipantPage> {
                         color: Colors.black.withOpacity(0.05), // Shadow color
                         spreadRadius: 2,
                         blurRadius: 10,
-                        offset: Offset(0, 5), // Positive Y value for bottom shadow
+                        offset:
+                            Offset(0, 5), // Positive Y value for bottom shadow
                       ),
                     ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
                       ///"Participants"
                       Center(
                         child: Text(
                           "Participants",
                           style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: screenSize.width*0.074,
+                              fontSize: screenSize.width * 0.074,
                               fontWeight: FontWeight.w600,
                               wordSpacing: 48),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                     ///Search field
+
+                      ///Search field
                       Center(
                         child: Container(
                           width: l * 0.8878,
@@ -190,6 +188,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
                           ),
                         ),
                       ),
+
                       ///list [All,scanned,unscanned]
                       SingleChildScrollView(
                         child: Row(
@@ -204,15 +203,16 @@ class _ParticipantPageState extends State<ParticipantPage> {
                                 },
                                 child: Center(
                                   child: Container(
-                                    height: screenSize.height*0.034,
-                                    width: screenSize.width*0.271,
+                                    height: screenSize.height * 0.034,
+                                    width: screenSize.width * 0.271,
                                     // padding: EdgeInsets.symmetric(horizontal: item.id == 20 ? 2 : 0),
                                     decoration: BoxDecoration(
                                         color: index == item.id
                                             ? constants.colors['primary']![500]
                                             : constants
                                                 .colors['background']!['light'],
-                                        borderRadius: BorderRadius.circular(16)),
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
 
                                     child: Center(
                                         child: Text(
@@ -220,7 +220,7 @@ class _ParticipantPageState extends State<ParticipantPage> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontFamily: "Poppins",
+                                          fontFamily: "Poppins",
                                           fontSize: 17,
                                           color: index == item.id
                                               ? Colors.white
@@ -238,29 +238,26 @@ class _ParticipantPageState extends State<ParticipantPage> {
                   ),
                 ),
               ),
+
               ///List of participants
               SingleChildScrollView(
-                child: Container(
-                  height: screenSize.height*0.7,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 20, bottom: 20),
-                        width: l * 0.887,
-                        padding: const EdgeInsets.only(bottom: 25),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-
-                        ),
-                        child: Wrap(
-                          children: [...participantstoappear()],
-                        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 20, bottom: 20),
+                      width: l * 0.887,
+                      padding: const EdgeInsets.only(bottom: 25),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      const ScanButton(),
-                    ],
-                  ),
+                      child: Wrap(
+                        children: [...participantstoappear()],
+                      ),
+                    ),
+                    const ScanButton(),
+                  ],
                 ),
               ),
             ]),

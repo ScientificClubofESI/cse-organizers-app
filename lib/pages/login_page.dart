@@ -29,17 +29,24 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordControler = TextEditingController();
+  String erreur = 'Try again !';
+  bool yban = true;
+  bool show = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize your controllers or other state variables here
+  }
+
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
     double buttonWidthPercentage = 75.0;
     double textfieldWidthPercentage = 80.0;
-    final emailController = TextEditingController();
-    final passwordControler = TextEditingController();
-    String erreur = " ";
-    String msg = " ";
 
     double buttonWidth =
         (screenWidth * buttonWidthPercentage / 100).clamp(0, screenWidth);
@@ -52,102 +59,143 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ///Logo
-            SizedBox(height: screenheight*0.05),
-            SvgPicture.asset('assets/images/CSE_Logo_Plexus_Dark.svg',width: screenheight*0.27,height: screenheight*0.27),
-             SizedBox(height: screenheight*0.086), // Spacer
+            // Logo
+            SizedBox(height: screenheight * 0.05),
+            SvgPicture.asset('assets/images/CSE_Logo_Plexus_Dark.svg',
+                width: screenheight * 0.27, height: screenheight * 0.27),
+            SizedBox(height: screenheight * 0.086), // Spacer
 
-            ///Log in to cont
+            // Log in to continue
             const Text(
               'Log in to continue',
               style: TextStyle(
                 fontFamily: 'CSEOrganizersApp',
-                fontSize: 18.0, // Adjust the font size as needed
+                fontSize: 18.0,
                 color: Color.fromRGBO(38, 38, 38, 1),
-                fontWeight: FontWeight.w700// Set the text color
+                fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: screenheight*0.069), // Spacer
+            SizedBox(height: screenheight * 0.069), // Spacer
 
-            ///Email field
+            // Email field
             Container(
-              width: screenWidth*0.81,
-              height: screenheight*0.06,
+              width: screenWidth * 0.81,
+              height: screenheight * 0.06,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0), // the border radius
-                color: Colors.white, //the textfield's background color to white
+                borderRadius: BorderRadius.circular(16.0),
+                color: Colors.white,
+                border: show
+                    ? Border.all(
+                        color: Colors
+                            .red, // Set the border color to red when show is true
+                        width: 1.0, // Set the border width
+                      )
+                    : Border.all(
+                        color: Colors
+                            .transparent, // No border color when show is false
+                      ),
               ),
               child: TextField(
                 controller: emailController,
                 decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 16.0), //padding left
-                  border: InputBorder.none, // Remove the border
+                  contentPadding: EdgeInsets.only(left: 16.0),
+                  border: InputBorder.none,
                   hintText: 'Email',
                   hintStyle: TextStyle(
-                    // Adjust font style for the label
-                    fontSize: 16.0, // Set the font size
+                    fontSize: 16.0,
                     fontFamily: 'CSEOrganizersApp',
                     color: Color.fromRGBO(170, 170, 170, 1),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: screenheight*0.02), // Spacer
+            SizedBox(height: screenheight * 0.02), // Spacer
 
-            ///Password field
+            // Password field
             Container(
-              width: screenWidth*0.81,
-              height: screenheight*0.06,
+              width: screenWidth * 0.81,
+              height: screenheight * 0.06,
               decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(16.0), // Set the border radius
-                color: Colors.white, // Set the background color to white
+                borderRadius: BorderRadius.circular(16.0),
+                color: Colors.white,
+                border: show
+                    ? Border.all(
+                        color: Colors
+                            .red, // Set the border color to red when show is true
+                        width: 1.0, // Set the border width
+                      )
+                    : Border.all(
+                        color: Colors
+                            .transparent, // No border color when show is false
+                      ),
               ),
-              child: TextField(
-                controller: passwordControler,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 16.0), //padding left
-                  border: InputBorder.none, // Remove the border
-                  hintText: 'Password',
-                  hintStyle: TextStyle(
-                      // Adjust font style for the label
-                      fontSize: 16.0, // Set the font size
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 7.0),
+                child: TextField(
+                  controller: passwordControler,
+                  obscureText: yban,
+                  decoration: InputDecoration(
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          yban = !yban;
+                        });
+                      },
+                      child: Container(
+                        child: yban
+                            ? const Icon(
+                                Icons.visibility_off,
+                              )
+                            : const Icon(Icons.visibility),
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.only(left: 16.0),
+                    border: InputBorder.none,
+                    hintText: 'Password',
+                    hintStyle: TextStyle(
+                      fontSize: 16.0,
                       fontFamily: 'CSEOrganizersApp',
-                      color: Color.fromRGBO(170, 170, 170, 1)),
+                      color: Color.fromRGBO(170, 170, 170, 1),
+                    ),
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: screenheight*0.086), // Spacer
+            SizedBox(height: screenheight * 0.086), // Spacer
 
-            ///Log in button & Error text
+            // Log in button & Error text
             Column(
               children: [
                 SizedBox(
-                  width: screenWidth*0.724,
-                  height: screenheight*0.064,
+                  width: screenWidth * 0.724,
+                  height: screenheight * 0.064,
                   child: ElevatedButton(
                     onPressed: () async {
                       // Handle login button press here
                       if (emailController.text.isNotEmpty &&
                           passwordControler.text.isNotEmpty) {
-                        await signIn(emailController.text.trim(),
-                            passwordControler.text.trim(), context);
+                        if (await signIn(emailController.text.trim(),
+                            passwordControler.text.trim(), context)) {
+                          // Do something if login is successful
+                        } else {
+                          setState(() {
+                            show = true;
+                          });
+                        }
                       } else {
-                        print("msg derreur");
                         setState(() {
-                          erreur = "Error :";
-                          msg = " try again ";
+                          show = true;
                         });
                       }
                       // msg d'erreur
                     },
                     style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0), // Button border radius
-                        ),
-                        backgroundColor: const Color(0xFFFFD429)),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      backgroundColor: const Color(0xFFFFD429),
+                    ),
                     child: const Text(
                       'Log in',
                       style: TextStyle(
@@ -158,24 +206,17 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                ///error text
-                SizedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        erreur,
-                        style: const TextStyle(
-                            fontFamily: 'CSEOrganizersApp',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontSize: 16),
+                Visibility(
+                  visible: show,
+                  child: SizedBox(
+                    child: Text(
+                      erreur,
+                      style: const TextStyle(
+                        fontFamily: 'CSEOrganizersApp',
+                        color: Colors.red,
+                        fontSize: 16,
                       ),
-                      Text(
-                        msg,
-                        style: const TextStyle(color: Colors.red, fontSize: 16,fontFamily: 'CSEOrganizersApp',),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -188,5 +229,7 @@ class _LoginFormState extends State<LoginForm> {
 }
 
 void main() {
-  runApp(const LoginPage());
+  runApp(const MaterialApp(
+    home: LoginPage(),
+  ));
 }

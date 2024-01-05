@@ -7,7 +7,7 @@ import 'package:cse_organizers_app/models/event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Future<void> signIn(String email, String password, BuildContext context) async {
+Future<bool> signIn(String email, String password, BuildContext context) async {
   try {
     print("------------------------");
 
@@ -26,19 +26,9 @@ Future<void> signIn(String email, String password, BuildContext context) async {
     print(UserData.participants[0].fullName);
 
     Navigator.pushReplacementNamed(context, "/home");
-
-    /*FirebaseFirestore.instance
-        .collection('organisateurs')
-        .doc(credential.user!.uid)
-        .collection("tasks")
-        .add({
-      "title": "Task 2",
-      "description": "Description of task 2",
-      "start_time": Timestamp.fromDate(DateTime(2023, 10, 31)),
-      "end_time": Timestamp.fromDate(DateTime(2023, 10, 20))
-    });*/
+    return true;
   } on FirebaseException catch (e) {
-    print(e);
+    return false;
   }
   /*try {
     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(

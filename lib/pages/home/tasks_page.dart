@@ -27,12 +27,13 @@ class _TasksPageState extends State<TasksPage> {
   List<Event>? eventList = List.empty();
   int current = 0;
   int eventDAYS = EventsData.events[0].days.length;
+
   late List<Task> currentDayTasksList = [];
   bool free = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     //on met a jour le champs free de lorganisateur connecté
     for (var element in UserData.tasks) {
       if (DateTime.now().isAfter(element.startTime) &&
@@ -42,7 +43,7 @@ class _TasksPageState extends State<TasksPage> {
       }
     }
 
-    updateFreeOrgnizers(free);
+    //  updateFreeOrgnizers(free);
 
     //initialiser le nombre de jours
     for (var i = 1; i <= eventDAYS; i++) {

@@ -1,7 +1,5 @@
-import 'package:cse_organizers_app/Services/data_manager.dart';
 import 'package:cse_organizers_app/constants.dart';
 import 'package:cse_organizers_app/data/event_data.dart';
-import 'package:cse_organizers_app/data/user_data.dart';
 import 'package:flutter/material.dart';
 
 class AgendaPage extends StatefulWidget {
@@ -50,7 +48,7 @@ class _AgendaPageState extends State<AgendaPage> {
             children: [
               /// "Agenda" & days list
               Container(
-                height: screenSize.height*0.19,
+                height: screenSize.height * 0.19,
                 decoration: BoxDecoration(
                   color: colors['shades']!['white'],
                   boxShadow: [
@@ -58,7 +56,8 @@ class _AgendaPageState extends State<AgendaPage> {
                       color: Colors.black.withOpacity(0.05), // Shadow color
                       spreadRadius: 2,
                       blurRadius: 10,
-                      offset: Offset(0, 5), // Positive Y value for bottom shadow
+                      offset:
+                          Offset(0, 5), // Positive Y value for bottom shadow
                     ),
                   ],
                 ),
@@ -74,7 +73,7 @@ class _AgendaPageState extends State<AgendaPage> {
                           color: colors['neutral']![900],
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w900,
-                          fontSize: screenSize.width*0.074,
+                          fontSize: screenSize.width * 0.074,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -101,8 +100,8 @@ class _AgendaPageState extends State<AgendaPage> {
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                height: screenSize.height*0.06,
-                                width: screenSize.width*0.27,
+                                height: screenSize.height * 0.06,
+                                width: screenSize.width * 0.27,
                                 margin: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
@@ -122,7 +121,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                             : colors['neutral']![900],
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w600,
-                                        fontSize: screenSize.height*0.021,
+                                        fontSize: screenSize.height * 0.021,
                                       ),
                                     ),
                                   ),
@@ -136,12 +135,13 @@ class _AgendaPageState extends State<AgendaPage> {
                   ],
                 ),
               ),
+
               /// "Event Agenda" + agenda image
               SizedBox(
-                height: screenSize.height*0.034,
+                height: screenSize.height * 0.034,
               ),
               Column(
-                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     'Event Agenda',
@@ -149,11 +149,14 @@ class _AgendaPageState extends State<AgendaPage> {
                       color: colors['neutral']![900],
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
-                      fontSize: screenSize.width*0.074,
+                      fontSize: screenSize.width * 0.074,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox( height: screenSize.height*0.04,),
+                  SizedBox(
+                    height: screenSize.height * 0.04,
+                  ),
+
                   ///Agenda Image
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),

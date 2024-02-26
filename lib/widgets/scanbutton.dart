@@ -43,6 +43,9 @@ class _ScanButtonState extends State<ScanButton> {
       for (var element in UserData.participants) {
         if (element.id == code) {
           Verified = true;
+        } else {
+          print("why");
+          Verified = false;
         }
       }
       if (Verified) {
@@ -53,7 +56,7 @@ class _ScanButtonState extends State<ScanButton> {
       }
     }
 
-    void _showDialog(BuildContext context, bool isVerified) {
+    void _showDialog(BuildContext context, bool Verified) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -68,7 +71,7 @@ class _ScanButtonState extends State<ScanButton> {
                 // ),
                 // SizedBox(height: 20.0),
                 Text(
-                  (isVerified)
+                  (Verified)
                       ? 'Participant ID is valid'
                       : "Participant ID is unvalid",
                   style: TextStyle(
@@ -81,7 +84,7 @@ class _ScanButtonState extends State<ScanButton> {
                   onPressed: () {
                     Navigator.of(context).pop(); // Ferme la boîte de dialogue
                   },
-                  icon: (isVerified)
+                  icon: (Verified)
                       ? Icon(
                           CSEOrganizersApp.checkboxChecked,
                           color: constants.colors["success"]![100],
@@ -128,8 +131,6 @@ class _ScanButtonState extends State<ScanButton> {
                 await updateScannedParticipants(_scanBarcode, true);
                 UserData.participants = [];
                 await getParticipants(EventsData.eventInfo!.id);
-
-//ParticipantPage. = UserData.participants;
               }
             },
             child: Row(

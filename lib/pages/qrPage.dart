@@ -1,8 +1,4 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:cse_organizers_app/icons/c_s_e_organizers_app_icons.dart';
@@ -59,12 +55,12 @@ class _QrPageState extends State<QrPage> {
                 (isVerified)
                     ? 'Participant ID is valid'
                     : "Participant ID is unvalid",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               IconButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Ferme la boîte de dialogue
@@ -122,6 +118,7 @@ class _QrPageState extends State<QrPage> {
 
 //-------------------------------- QR generator
 
+// ignore: must_be_immutable
 class QrGenerator extends StatelessWidget {
   String uid;
   QrGenerator({required this.uid});

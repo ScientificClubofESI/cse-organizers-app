@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/Services/data_manager.dart';
 import 'package:cse_organizers_app/Services/event_service.dart';
 import 'package:cse_organizers_app/data/event_data.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
-import 'package:cse_organizers_app/models/event.dart';
+import 'package:cse_organizers_app/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +21,9 @@ Future<bool> signIn(String email, String password, BuildContext context) async {
     EventsData.eventInfo = EventsData.events[0];
     print(EventsData.eventInfo!.id);
     await getParticipants('rh51g2ICQPTSJaB9V8tr');
-    print("auth");
-    print(UserData.participants[0].fullName);
 
-    Navigator.pushReplacementNamed(context, "/home");
     return true;
-  } on FirebaseException catch (e) {
+  } on FirebaseException {
     return false;
   }
   /*try {

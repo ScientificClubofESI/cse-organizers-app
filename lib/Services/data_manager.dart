@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse_organizers_app/data/event_data.dart';
 import 'package:cse_organizers_app/data/user_data.dart';
-import 'package:cse_organizers_app/models/event.dart';
 import 'package:cse_organizers_app/models/organizer.dart';
 import 'package:cse_organizers_app/models/participant.dart';
 import 'package:cse_organizers_app/models/task.dart';

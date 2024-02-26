@@ -1,4 +1,5 @@
 import 'package:cse_organizers_app/firebase_options.dart';
+import 'package:cse_organizers_app/pages/Auth.dart';
 import 'package:cse_organizers_app/pages/home_page.dart';
 import 'package:cse_organizers_app/pages/login_page.dart';
 import 'package:cse_organizers_app/pages/qrPage.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: constants.title,
       initialRoute: "/",
       routes: {
-        '/': (context) => const LoginPage(),
+        '/': (context) => const Auth(),
         '/login': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
         '/scanPage': (context) => const QrPage(),
